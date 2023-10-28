@@ -2,6 +2,7 @@ plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
     id("com.google.gms.google-services")
+    kotlin("kapt")
 }
 
 android {
@@ -58,4 +59,13 @@ dependencies {
     val jetpackNavigationVersion = "2.7.4"
     implementation("androidx.navigation:navigation-fragment-ktx:$jetpackNavigationVersion")
     implementation("androidx.navigation:navigation-ui-ktx:$jetpackNavigationVersion")
+
+    // Dagger
+    val daggerVersion = "2.48"
+    implementation("com.google.dagger:dagger:$daggerVersion")
+    implementation("com.google.dagger:dagger-android:$daggerVersion")
+    implementation("com.google.dagger:dagger-android-support:$daggerVersion")
+
+    kapt("com.google.dagger:dagger-android-processor:$daggerVersion")
+    kapt("com.google.dagger:dagger-compiler:$daggerVersion")
 }
