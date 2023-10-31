@@ -15,7 +15,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
+        appComponent
         val user: MutableMap<String, Any> = HashMap()
         user["first"] = "Konstantyn"
         user["last"] = "Huzil"

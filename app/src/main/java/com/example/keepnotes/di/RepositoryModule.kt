@@ -8,7 +8,7 @@ import javax.inject.Singleton
 
 @Module
 interface RepositoryModule {
-    @Singleton
     @Binds
-    fun bindRepository(noteRepositoryImpl: NoteRepositoryImpl): NoteRepository
+    @Singleton
+    fun bindRepository(noteRepository: NoteRepositoryImpl): NoteRepository
 }
