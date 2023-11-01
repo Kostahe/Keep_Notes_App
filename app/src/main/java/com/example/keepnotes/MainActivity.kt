@@ -9,13 +9,9 @@ import javax.inject.Inject
 
 class MainActivity : AppCompatActivity() {
 
-    @Inject
-    lateinit var viewModelFactory: ViewModelProvider.Factory
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        appComponent
         val user: MutableMap<String, Any> = HashMap()
         user["first"] = "Konstantyn"
         user["last"] = "Huzil"

@@ -2,6 +2,7 @@ package com.example.keepnotes.di
 
 import android.app.Application
 import com.example.keepnotes.MainActivity
+import com.example.keepnotes.ui.NoteListingFragment
 import dagger.BindsInstance
 import dagger.Component
 import javax.inject.Singleton
@@ -11,7 +12,7 @@ import javax.inject.Singleton
 @Component(modules = [AppModule::class, ViewModelModule::class, RepositoryModule::class])
 interface AppComponent {
 
-    fun inject(mainActivity: MainActivity)
+    fun injectToNoteListFragment(noteListingFragment: NoteListingFragment)
 
     @Component.Builder
     interface Builder {
