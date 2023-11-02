@@ -14,17 +14,20 @@ class NoteRepositoryImpl @Inject constructor(
     override fun getNotes(): State<List<Note>> {
         val data = listOf<Note>(
             Note(
-                "lorem1",
+                id = "lorem1",
+                title = "Title1",
                 text = "Note 1",
                 date = Date()
             ),
             Note(
-                "lorem2",
+                id = "lorem2",
+                title = "Title2",
                 text = "Note 2",
                 date = Date()
             ),
             Note(
-                "lorem3",
+                id = "lorem3",
+                title = "Title3",
                 text = "Note 3",
                 date = Date()
             )
