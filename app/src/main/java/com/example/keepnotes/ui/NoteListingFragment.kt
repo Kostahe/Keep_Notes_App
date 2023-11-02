@@ -11,6 +11,7 @@ import com.example.keepnotes.appComponent
 import com.example.keepnotes.databinding.FragmentNoteListingBinding
 import com.example.keepnotes.di.AppComponent
 import com.example.keepnotes.di.ViewModelFactory
+import com.example.keepnotes.domain.repository.State
 import javax.inject.Inject
 
 
@@ -41,8 +42,18 @@ class NoteListingFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel.getNotes()
-        viewModel.note.observe(viewLifecycleOwner) {
+        viewModel.note.observe(viewLifecycleOwner) { noteState ->
+            when(noteState) {
+                is State.Loading -> {
 
+                }
+                is State.Error -> {
+
+                }
+                is State.Success -> {
+
+                }
+            }
         }
     }
 }
