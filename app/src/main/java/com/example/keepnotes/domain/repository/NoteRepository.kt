@@ -3,5 +3,6 @@ package com.example.keepnotes.domain.repository
 import com.example.keepnotes.data.model.Note
 
 interface NoteRepository {
-    fun getNotes(): State<List<Note>>
+    fun getNotes( result: (State<List<Note>>) -> Unit)
+    fun addNotes(note: Note, result: (State<String>) -> Unit)
 }
