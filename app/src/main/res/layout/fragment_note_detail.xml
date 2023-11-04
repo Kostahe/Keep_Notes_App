@@ -4,23 +4,39 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <EditText
+    <com.example.keepnotes.ui.customviews.ActionEditText
         android:id="@+id/title_edit_text"
         android:textColor="?android:attr/textColorSecondary"
         android:textSize="30sp"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:hint="@string/title"
-        android:inputType="text"
+        android:scrollHorizontally="false"
         android:importantForAutofill="no"
-        android:imeOptions="actionNext"
         android:background="@null"
-        android:maxLength="25"
         android:layout_marginTop="8dp"
         android:layout_marginStart="8dp"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
+<!--    <EditText-->
+<!--        -->
+<!--        android:textColor="?android:attr/textColorSecondary"-->
+<!--        android:textSize="30sp"-->
+<!--        android:layout_width="0dp"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:hint="@string/title"-->
+<!--        android:inputType="text"-->
+<!--        android:scrollHorizontally="false"-->
+<!--        android:lines="3"-->
+<!--        android:importantForAutofill="no"-->
+<!--        android:imeOptions="actionNext"-->
+<!--        android:background="@null"-->
+<!--        android:layout_marginTop="8dp"-->
+<!--        android:layout_marginStart="8dp"-->
+<!--        app:layout_constraintTop_toTopOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"/>-->
 
     <EditText
         android:id="@+id/note_edit_text"
