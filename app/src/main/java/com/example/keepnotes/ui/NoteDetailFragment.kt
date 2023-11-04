@@ -7,12 +7,26 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import com.example.keepnotes.appComponent
 import com.example.keepnotes.databinding.FragmentNoteDetailBinding
+import com.example.keepnotes.di.ViewModelFactory
+import javax.inject.Inject
 
 class NoteDetailFragment : Fragment() {
 
     private lateinit var binding: FragmentNoteDetailBinding
+
+    @Inject
+    lateinit var viewModelFactory: ViewModelFactory
+    private lateinit var viewModel: NoteViewModel
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        context?.appComponent?.injectToNoteDetailFragment(this)
+        viewModel = ViewModelProvider(this, viewModelFactory)[NoteViewModel::class.java]
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
