@@ -5,6 +5,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.navigation.fragment.findNavController
 import com.example.keepnotes.databinding.FragmentNoteDetailBinding
 
@@ -16,6 +18,7 @@ class NoteDetailFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        setupOnBackPressed()
         binding = FragmentNoteDetailBinding.inflate(layoutInflater)
         return binding.root
     }
@@ -26,5 +29,16 @@ class NoteDetailFragment : Fragment() {
 
             findNavController().navigateUp()
         }
+    }
+
+    private fun setupOnBackPressed() {
+        requireActivity().onBackPressedDispatcher.addCallback(object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                if (isEnabled) {
+                    findNavController().navigateUp()
+                }
+            }
+
+        })
     }
 }
