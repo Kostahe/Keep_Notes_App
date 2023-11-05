@@ -2,7 +2,6 @@ package com.example.keepnotes.ui
 
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.keepnotes.data.model.Note
@@ -38,10 +37,8 @@ class NoteListingAdapter(
 
     inner class NoteViewHolder(private val binding: NoteItemBinding): RecyclerView.ViewHolder(binding.root) {
         fun bind(item: Note) {
-            println()
-            binding.titleText.text = item.text
+            binding.titleText.text = item.title
             binding.noteText.text = item.text
-
         }
     }
 }

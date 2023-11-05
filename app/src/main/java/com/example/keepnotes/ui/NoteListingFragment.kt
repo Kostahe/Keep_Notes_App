@@ -40,7 +40,7 @@ class NoteListingFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
         binding = FragmentNoteListingBinding.inflate(layoutInflater)
         return binding.root
@@ -63,7 +63,7 @@ class NoteListingFragment : Fragment() {
                 }
                 is State.Success -> {
                     binding.progressBar.visibility = View.GONE
-                    adapter.updateList(noteState.data!!.toMutableList())
+                    adapter.updateList(noteState.data?.toMutableList() ?: mutableListOf())
                 }
             }
         }

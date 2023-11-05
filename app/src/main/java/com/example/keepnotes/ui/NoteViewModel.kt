@@ -22,15 +22,11 @@ class NoteViewModel @Inject constructor(
 
     fun getNotes() {
         _notes.value = State.Loading()
-        repository.getNotes {
-            _notes.value = it
-        }
+        repository.getNotes { _notes.value = it }
     }
 
     fun addNote(note: Note) {
         _addedNote.value = State.Loading()
-        repository.addNotes(note) {
-            _addedNote.value = it
-        }
+        repository.addNotes(note) { _addedNote.value = it }
     }
 }

@@ -34,11 +34,13 @@ class NoteRepositoryImpl @Inject constructor(
 
 
     override fun addNotes(note: Note, result: (State<String>) -> Unit) {
-        database.collection(FireStoreTables.NOTE)
-            .add(note)
+        val document = database.collection(FireStoreTables.NOTE).document()
+        note.id = document.id
+        document
+            .set(note)
             .addOnSuccessListener {
                 result.invoke(
-                    State.Success(it.id)
+                    State.Success("Success")
                 )
             }
             .addOnFailureListener {
