@@ -12,7 +12,8 @@
         tools:layout="@layout/fragment_note_listing" >
         <action
             android:id="@+id/action_noteListingFragment_to_noteDetailFragment"
-            app:destination="@id/noteDetailFragment" />
+            app:destination="@id/noteDetailFragment"
+            app:enterAnim="@android:anim/fade_in" />
     </fragment>
     <fragment
         android:id="@+id/noteDetailFragment"
