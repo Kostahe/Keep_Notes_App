@@ -22,7 +22,8 @@ class NoteListingFragment : Fragment() {
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
     private lateinit var viewModel: NoteViewModel
-    val adapter by lazy {
+
+    private val adapter by lazy {
         NoteListingAdapter(
             onItemCLicked = { pos, item ->
 
