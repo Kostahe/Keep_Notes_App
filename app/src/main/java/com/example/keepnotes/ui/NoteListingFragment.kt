@@ -1,6 +1,7 @@
 package com.example.keepnotes.ui
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -63,6 +64,7 @@ class NoteListingFragment : Fragment() {
                     binding.progressBar.visibility = View.GONE
                 }
                 is State.Success -> {
+                    Log.d("Test","Success")
                     binding.progressBar.visibility = View.GONE
                     adapter.updateList(noteState.data?.toMutableList() ?: mutableListOf())
                 }
