@@ -12,23 +12,21 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
             <ImageButton
                 android:id="@+id/button_back"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="0dp"
+                android:layout_weight="1"
                 android:layout_marginStart="16dp"
                 android:background="?attr/colorSurface"
-                app:srcCompat="@drawable/ic_back"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                android:contentDescription="@string/button_back" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
+                android:contentDescription="@string/button_back"
+                app:srcCompat="@drawable/ic_back" />
+        </LinearLayout>
 
     </com.google.android.material.appbar.AppBarLayout>
 
