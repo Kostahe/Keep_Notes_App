@@ -2,6 +2,7 @@ plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
     id("com.google.gms.google-services")
+    id("org.jetbrains.kotlin.plugin.parcelize")
     kotlin("kapt")
 }
 
@@ -57,7 +58,7 @@ dependencies {
     implementation("com.google.firebase:firebase-firestore:24.9.1")
 
     // Jetpack navigation
-    val jetpackNavigationVersion = "2.7.4"
+    val jetpackNavigationVersion = "2.7.5"
     implementation("androidx.navigation:navigation-fragment-ktx:$jetpackNavigationVersion")
     implementation("androidx.navigation:navigation-ui-ktx:$jetpackNavigationVersion")
 
@@ -69,4 +70,7 @@ dependencies {
 
     kapt("com.google.dagger:dagger-android-processor:$daggerVersion")
     kapt("com.google.dagger:dagger-compiler:$daggerVersion")
+
+    // Parcelize
+    implementation("org.jetbrains.kotlinx:kotlinx-parcelize:1.5.0")
 }
