@@ -71,6 +71,4 @@ dependencies {
     kapt("com.google.dagger:dagger-android-processor:$daggerVersion")
     kapt("com.google.dagger:dagger-compiler:$daggerVersion")
 
-    // Parcelize
-    implementation("org.jetbrains.kotlinx:kotlinx-parcelize:1.5.0")
 }
