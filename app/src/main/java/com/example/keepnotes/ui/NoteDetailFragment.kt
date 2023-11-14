@@ -1,5 +1,6 @@
 package com.example.keepnotes.ui
 
+import android.os.Build
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -13,7 +14,6 @@ import com.example.keepnotes.appComponent
 import com.example.keepnotes.data.model.Note
 import com.example.keepnotes.databinding.FragmentNoteDetailBinding
 import com.example.keepnotes.di.ViewModelFactory
-import com.example.keepnotes.domain.repository.State
 import java.util.Date
 import javax.inject.Inject
 
@@ -24,6 +24,8 @@ class NoteDetailFragment : Fragment() {
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
     private lateinit var viewModel: NoteViewModel
+
+    var note: Note? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,30 +44,26 @@ class NoteDetailFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        getNote()
         binding.buttonBack.setOnClickListener {
-            if (validation()) {
-                viewModel.addNote(
-                    Note(
-                        id = "",
-                        title = binding.titleEditText.text.toString(),
-                        text = binding.noteEditText.text.toString(),
-                        date = Date()
-                    )
-                )
-            }
+            addNote()
             findNavController().navigateUp()
         }
-        viewModel.addedNote.observe(viewLifecycleOwner) { state ->
-            when(state) {
-                is State.Loading -> {
+    }
 
+    private fun getNote() {
+        val type = arguments?.getString("type")
+        type.let {
+            if (type == "update") {
+                note = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                    arguments?.getParcelable("note", Note::class.java)
+                } else {
+                    @Suppress("DEPRECATION")
+                    arguments?.getParcelable("note") as? Note
                 }
-                is State.Success -> {
 
-                }
-                is State.Error -> {
-
-                }
+                binding.titleEditText.setText(note?.title)
+                binding.noteEditText.setText(note?.text)
             }
         }
     }
@@ -74,16 +72,32 @@ class NoteDetailFragment : Fragment() {
         requireActivity().onBackPressedDispatcher.addCallback(object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
                 if (isEnabled) {
+                    addNote()
                     findNavController().navigateUp()
                 }
             }
         })
     }
 
+    private fun addNote() {
+        if (validation()) {
+            viewModel.addNote(
+                Note(
+                    id = "",
+                    title = binding.titleEditText.text.toString(),
+                    text = binding.noteEditText.text.toString(),
+                    date = Date()
+                )
+            )
+        }
+    }
+
     private fun validation(): Boolean {
         var isValid = true
 
-        if (binding.titleEditText.text.toString().isEmpty() and binding.noteEditText.text.toString().isEmpty()) {
+        if (binding.titleEditText.text.toString().isEmpty() and binding.noteEditText.text.toString()
+                .isEmpty()
+        ) {
             isValid = false
             Toast.makeText(context, "Empty note discarded", Toast.LENGTH_LONG).show()
         }
