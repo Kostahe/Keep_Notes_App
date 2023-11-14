@@ -5,6 +5,8 @@ import android.util.AttributeSet;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputConnection;
 
+import androidx.annotation.NonNull;
+
 public class ActionEditText extends androidx.appcompat.widget.AppCompatEditText
 {
     public ActionEditText(Context context)
@@ -23,7 +25,7 @@ public class ActionEditText extends androidx.appcompat.widget.AppCompatEditText
     }
 
     @Override
-    public InputConnection onCreateInputConnection(EditorInfo outAttrs)
+    public InputConnection onCreateInputConnection(@NonNull EditorInfo outAttrs)
     {
         InputConnection conn = super.onCreateInputConnection(outAttrs);
         outAttrs.imeOptions &= ~EditorInfo.IME_FLAG_NO_ENTER_ACTION;
