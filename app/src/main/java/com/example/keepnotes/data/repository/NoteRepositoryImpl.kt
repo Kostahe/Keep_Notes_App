@@ -10,10 +10,10 @@ import javax.inject.Inject
 
 class NoteRepositoryImpl @Inject constructor(
     private val database: FirebaseFirestore
-): NoteRepository {
+) : NoteRepository {
     override fun getNotes(result: (State<List<Note>>) -> Unit) {
         val collectionRef = database.collection(FireStoreTables.NOTE)
-        
+
         collectionRef.addSnapshotListener { snapshot, error ->
             if (error != null) {
                 result.invoke(State.Error(error.message.orEmpty()))

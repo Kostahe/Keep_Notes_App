@@ -10,7 +10,7 @@ import javax.inject.Inject
 
 class NoteViewModel @Inject constructor(
     private val repository: NoteRepository
-): ViewModel() {
+) : ViewModel() {
 
     private val _notes = MutableLiveData<State<List<Note>>>()
     val note: LiveData<State<List<Note>>>

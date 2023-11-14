@@ -5,7 +5,7 @@ import android.content.Context
 import com.example.keepnotes.di.AppComponent
 import com.example.keepnotes.di.DaggerAppComponent
 
-class NoteApp: Application() {
+class NoteApp : Application() {
     lateinit var appComponent: AppComponent
 
     override fun onCreate() {

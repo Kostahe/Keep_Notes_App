@@ -12,4 +12,4 @@ data class Note(
     val text: String = "",
     @ServerTimestamp
     val date: Date = Date()
-): Parcelable
+) : Parcelable

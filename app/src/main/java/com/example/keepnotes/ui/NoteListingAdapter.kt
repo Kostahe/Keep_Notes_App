@@ -9,7 +9,7 @@ import com.example.keepnotes.databinding.NoteItemBinding
 
 class NoteListingAdapter(
     val onItemCLicked: (Int, Note) -> Unit
-): RecyclerView.Adapter<NoteListingAdapter.NoteViewHolder>() {
+) : RecyclerView.Adapter<NoteListingAdapter.NoteViewHolder>() {
 
     private var list: MutableList<Note> = mutableListOf()
 
@@ -35,7 +35,8 @@ class NoteListingAdapter(
         notifyDataSetChanged()
     }
 
-    inner class NoteViewHolder(private val binding: NoteItemBinding): RecyclerView.ViewHolder(binding.root) {
+    inner class NoteViewHolder(private val binding: NoteItemBinding) :
+        RecyclerView.ViewHolder(binding.root) {
         fun bind(item: Note) {
             binding.titleText.text = item.title
             binding.noteText.text = item.text
