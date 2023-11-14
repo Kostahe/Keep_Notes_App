@@ -40,6 +40,9 @@ class NoteListingAdapter(
         fun bind(item: Note) {
             binding.titleText.text = item.title
             binding.noteText.text = item.text
+            binding.card.setOnClickListener {
+                onItemCLicked(adapterPosition, item)
+            }
         }
     }
 }
