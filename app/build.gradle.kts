@@ -55,7 +55,7 @@ dependencies {
 
     // Firebase
     implementation(platform("com.google.firebase:firebase-bom:32.4.0"))
-    implementation("com.google.firebase:firebase-firestore:24.9.1")
+    implementation("com.google.firebase:firebase-firestore")
 
     // Jetpack navigation
     val jetpackNavigationVersion = "2.7.5"
