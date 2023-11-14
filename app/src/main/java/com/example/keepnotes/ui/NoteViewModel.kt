@@ -20,6 +20,10 @@ class NoteViewModel @Inject constructor(
     val addedNote: LiveData<State<String>>
         get() = _addedNote
 
+    private val _updatedNote = MutableLiveData<State<String>>()
+    val updatedNote: LiveData<State<String>>
+        get() = _updatedNote
+
     fun getNotes() {
         _notes.value = State.Loading()
         repository.getNotes { _notes.value = it }
@@ -28,5 +32,10 @@ class NoteViewModel @Inject constructor(
     fun addNote(note: Note) {
         _addedNote.value = State.Loading()
         repository.addNotes(note) { _addedNote.value = it }
+    }
+
+    fun updateNote(note: Note) {
+        _updatedNote.value = State.Loading()
+        repository.updateNote(note) { _updatedNote.value = it }
     }
 }
