@@ -81,14 +81,31 @@ class NoteDetailFragment : Fragment() {
 
     private fun addNote() {
         if (validation()) {
-            viewModel.addNote(
-                Note(
-                    id = "",
-                    title = binding.titleEditText.text.toString(),
-                    text = binding.noteEditText.text.toString(),
-                    date = Date()
+            if (if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                    arguments?.getParcelable("note", Note::class.java) == null
+                } else {
+                    @Suppress("DEPRECATION")
+                    arguments?.getParcelable("note") as? Note == null
+                }
+            ) {
+                viewModel.addNote(
+                    Note(
+                        id = "",
+                        title = binding.titleEditText.text.toString(),
+                        text = binding.noteEditText.text.toString(),
+                        date = Date()
+                    )
                 )
-            )
+            } else {
+                viewModel.updateNote(
+                    Note(
+                        id = note?.id ?: "",
+                        title = binding.titleEditText.text.toString(),
+                        text = binding.noteEditText.text.toString(),
+                        date = Date()
+                    )
+                )
+            }
         }
     }
 
