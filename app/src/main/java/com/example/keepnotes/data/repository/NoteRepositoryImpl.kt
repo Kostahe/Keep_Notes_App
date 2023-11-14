@@ -1,13 +1,11 @@
 package com.example.keepnotes.data.repository
 
-import android.provider.ContactsContract.Data
+
 import com.example.keepnotes.data.model.Note
 import com.example.keepnotes.domain.repository.FireStoreTables
 import com.example.keepnotes.domain.repository.NoteRepository
 import com.example.keepnotes.domain.repository.State
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.toObject
-import java.util.Date
 import javax.inject.Inject
 
 class NoteRepositoryImpl @Inject constructor(
@@ -36,6 +34,22 @@ class NoteRepositoryImpl @Inject constructor(
         val document = database.collection(FireStoreTables.NOTE).document()
 
         note.id = document.id
+        document
+            .set(note)
+            .addOnSuccessListener {
+                result.invoke(
+                    State.Success("Success")
+                )
+            }
+            .addOnFailureListener {
+                result.invoke(
+                    State.Error(it.localizedMessage.orEmpty())
+                )
+            }
+    }
+
+    override fun updateNote(note: Note, result: (State<String>) -> Unit) {
+        val document = database.collection(FireStoreTables.NOTE).document(note.id)
         document
             .set(note)
             .addOnSuccessListener {
