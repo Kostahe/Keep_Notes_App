@@ -1,8 +1,8 @@
 package com.example.keepnotes.di
 
 import android.app.Application
-import com.example.keepnotes.ui.NoteDetailFragment
-import com.example.keepnotes.ui.NoteListingFragment
+import com.example.keepnotes.ui.note.NoteDetailFragment
+import com.example.keepnotes.ui.note.NoteListingFragment
 import dagger.BindsInstance
 import dagger.Component
 import javax.inject.Singleton
