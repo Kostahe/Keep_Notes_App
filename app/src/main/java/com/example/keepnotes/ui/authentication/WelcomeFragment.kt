@@ -5,6 +5,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
+import com.example.keepnotes.R
 import com.example.keepnotes.databinding.FragmentWelcomeBinding
 
 class WelcomeFragment : Fragment() {
@@ -22,6 +24,17 @@ class WelcomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        binding.apply {
+            registerButton.setOnClickListener {
+                findNavController().navigate(R.id.action_welcomeFragment_to_registrationFragment)
+            }
+
+            loginButton.setOnClickListener {
+                findNavController().navigate(R.id.action_welcomeFragment_to_loginFragment)
+            }
+
+        }
     }
 
 }

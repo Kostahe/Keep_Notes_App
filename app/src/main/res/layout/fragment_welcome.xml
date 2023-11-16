@@ -12,13 +12,13 @@
         android:contentDescription="@string/app_icon"
         android:scaleType="centerCrop"
         android:src="@drawable/ic_launcher_foreground"
-        app:tint="?attr/colorPrimary"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:tint="?attr/colorPrimary" />
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/sign_in_button"
+        android:id="@+id/login_button"
         style="@style/Widget.Material3.Button.IconButton.Filled"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -31,13 +31,13 @@
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/register_button"
-        style="@style/Widget.Material3.Button.OutlinedButton"
+        style="@style/Widget.Material3.Button.IconButton.Filled"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
         android:text="@string/register"
-        app:layout_constraintEnd_toEndOf="@id/sign_in_button"
-        app:layout_constraintStart_toStartOf="@id/sign_in_button"
-        app:layout_constraintTop_toBottomOf="@id/sign_in_button" />
+        app:layout_constraintEnd_toEndOf="@id/login_button"
+        app:layout_constraintStart_toStartOf="@id/login_button"
+        app:layout_constraintTop_toBottomOf="@id/login_button" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
