@@ -1,4 +1,4 @@
-package com.example.keepnotes.ui
+package com.example.keepnotes.ui.authentication
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment

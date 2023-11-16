@@ -2,7 +2,7 @@ package com.example.keepnotes.di
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.example.keepnotes.ui.NoteViewModel
+import com.example.keepnotes.ui.note.NoteViewModel
 import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap
