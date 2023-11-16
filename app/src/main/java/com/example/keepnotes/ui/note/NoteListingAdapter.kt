@@ -1,4 +1,4 @@
-package com.example.keepnotes.ui
+package com.example.keepnotes.ui.note
 
 
 import android.view.LayoutInflater
