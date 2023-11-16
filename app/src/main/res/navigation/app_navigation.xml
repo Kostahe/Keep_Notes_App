@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/app_navigation"
-    app:startDestination="@id/noteListingFragment">
+    app:startDestination="@id/welcomeFragment">
 
     <fragment
         android:id="@+id/noteListingFragment"
@@ -20,4 +20,31 @@
         android:name="com.example.keepnotes.ui.note.NoteDetailFragment"
         android:label="fragment_note_detail"
         tools:layout="@layout/fragment_note_detail" />
+    <fragment
+        android:id="@+id/welcomeFragment"
+        android:name="com.example.keepnotes.ui.authentication.WelcomeFragment"
+        android:label="WelcomeFragment" >
+        <action
+            android:id="@+id/action_welcomeFragment_to_registrationFragment"
+            app:destination="@id/registrationFragment" />
+        <action
+            android:id="@+id/action_welcomeFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/registrationFragment"
+        android:name="com.example.keepnotes.ui.authentication.RegistrationFragment"
+        android:label="RegistrationFragment" >
+        <action
+            android:id="@+id/action_registrationFragment_to_welcomeFragment2"
+            app:destination="@id/welcomeFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="com.example.keepnotes.ui.authentication.LoginFragment"
+        android:label="LoginFragment" >
+        <action
+            android:id="@+id/action_loginFragment_to_noteListingFragment"
+            app:destination="@id/noteListingFragment" />
+    </fragment>
 </navigation>
