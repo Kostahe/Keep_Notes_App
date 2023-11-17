@@ -60,12 +60,12 @@ class RegistrationFragment : Fragment() {
                     }
 
                     is State.Success -> {
-                        progressBar.visibility = View.GONE
+                        progressBar.visibility = View.INVISIBLE
                         findNavController().navigate(R.id.action_registrationFragment_to_welcomeFragment2)
                     }
 
                     is State.Error -> {
-                        progressBar.visibility = View.GONE
+                        progressBar.visibility = View.INVISIBLE
                         Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show()
                     }
                 }
@@ -98,14 +98,20 @@ class RegistrationFragment : Fragment() {
             if (usernameEditText.text.toString().trim().isEmpty()) {
                 isValid = false
                 usernameEditTextLayout.error = "Username can not be empty"
-            } else if (usernameEditText.text.toString().trim().length < 3) {
+            } else if (" " in usernameEditText.text.toString()) {
+                isValid = false
+                usernameEditTextLayout.error = "Username can not contain space"
+            } else if (usernameEditText.text.toString().length < 3) {
                 usernameEditTextLayout.error = "Username can not be less than 3 characters long"
             }
 
-            if (emailEditText.text.isNullOrEmpty()) {
+            if (emailEditText.text.toString().trim().isEmpty()) {
                 isValid = false
                 emailEditTextLayout.error = "Email can not be empty"
 
+            } else if (" " in emailEditText.text.toString()) {
+                isValid = false
+                usernameEditTextLayout.error = "Email can not contain spaces"
             } else if (!android.util.Patterns.EMAIL_ADDRESS.matcher(
                     emailEditText.text.toString().trim()
                 ).matches()
@@ -114,10 +120,14 @@ class RegistrationFragment : Fragment() {
                 emailEditTextLayout.error = "The email format is not correct"
             }
 
-            if (passwordEditText.text.isNullOrEmpty()) {
+            if (passwordEditText.text.toString().trim().isEmpty()) {
                 isValid = false
                 passwordEditTextLayout.error = "Password can not be empty"
-            } else if (passwordEditText.text.toString().length < 8) {
+            } else if (" " in passwordEditText.text.toString()) {
+                isValid = false
+                passwordEditTextLayout.error = "Password can not contain spaces"
+            }
+            else if (passwordEditText.text.toString().length < 8) {
                 isValid = false
                 passwordEditTextLayout.error = "Password can not be less than 8 characters long"
             }
