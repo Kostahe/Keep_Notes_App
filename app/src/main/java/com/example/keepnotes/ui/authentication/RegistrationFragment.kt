@@ -97,39 +97,40 @@ class RegistrationFragment : Fragment() {
 
             if (usernameEditText.text.toString().trim().isEmpty()) {
                 isValid = false
-                usernameEditTextLayout.error = "Username can not be empty"
+                usernameEditTextLayout.error = getString(R.string.username_can_not_be_empty)
             } else if (" " in usernameEditText.text.toString()) {
                 isValid = false
-                usernameEditTextLayout.error = "Username can not contain space"
+                usernameEditTextLayout.error = getString(R.string.username_can_not_contain_space)
             } else if (usernameEditText.text.toString().length < 3) {
-                usernameEditTextLayout.error = "Username can not be less than 3 characters long"
+                usernameEditTextLayout.error =
+                    getString(R.string.username_can_not_be_less_than_3_characters_long)
             }
 
             if (emailEditText.text.toString().trim().isEmpty()) {
                 isValid = false
-                emailEditTextLayout.error = "Email can not be empty"
+                emailEditTextLayout.error = getString(R.string.email_can_not_be_empty)
 
             } else if (" " in emailEditText.text.toString()) {
                 isValid = false
-                usernameEditTextLayout.error = "Email can not contain spaces"
+                usernameEditTextLayout.error = getString(R.string.email_can_not_contain_spaces)
             } else if (!android.util.Patterns.EMAIL_ADDRESS.matcher(
                     emailEditText.text.toString().trim()
                 ).matches()
             ) {
                 isValid = false
-                emailEditTextLayout.error = "The email format is not correct"
+                emailEditTextLayout.error = getString(R.string.the_email_format_is_not_correct)
             }
 
             if (passwordEditText.text.toString().trim().isEmpty()) {
                 isValid = false
-                passwordEditTextLayout.error = "Password can not be empty"
+                passwordEditTextLayout.error = getString(R.string.password_can_not_be_empty)
             } else if (" " in passwordEditText.text.toString()) {
                 isValid = false
-                passwordEditTextLayout.error = "Password can not contain spaces"
-            }
-            else if (passwordEditText.text.toString().length < 8) {
+                passwordEditTextLayout.error = getString(R.string.password_can_not_contain_spaces)
+            } else if (passwordEditText.text.toString().length < 8) {
                 isValid = false
-                passwordEditTextLayout.error = "Password can not be less than 8 characters long"
+                passwordEditTextLayout.error =
+                    getString(R.string.password_can_not_be_less_than_8_characters_long)
             }
             return isValid
         }
