@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -40,6 +41,16 @@ class LoginFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.apply {
+            emailEditText.addTextChangedListener {
+                emailEditTextLayout.error = null
+            }
+            passwordEditText.addTextChangedListener {
+                passwordEditTextLayout.error = null
+            }
+
+
+
+
             loginButton.setOnClickListener {
                 if (validation()) {
                     viewModel.login(
@@ -74,19 +85,25 @@ class LoginFragment : Fragment() {
         binding.apply {
             if (emailEditText.text.toString().trim().isEmpty()) {
                 isValid = false
+                emailEditTextLayout.error = getString(R.string.email_can_not_be_empty)
             } else if (" " in emailEditText.text.toString()) {
                 isValid = false
-            } else if (android.util.Patterns.EMAIL_ADDRESS.matcher(emailEditText.text.toString())
+                emailEditTextLayout.error = getString(R.string.email_can_not_contain_spaces)
+            } else if (!android.util.Patterns.EMAIL_ADDRESS.matcher(emailEditText.text.toString())
                     .matches()
             ) {
+                emailEditTextLayout.error = getString(R.string.the_email_format_is_not_correct)
                 isValid = false
             }
 
             if (passwordEditText.text.toString().trim().isEmpty()) {
+                passwordEditTextLayout.error = getString(R.string.password_can_not_be_empty)
                 isValid = false
             } else if (" " in passwordEditText.text.toString()) {
+                passwordEditTextLayout.error = getString(R.string.password_can_not_contain_spaces)
                 isValid = false
             } else if (passwordEditText.text.toString().length < 8) {
+                passwordEditTextLayout.error = getString(R.string.password_can_not_be_less_than_8_characters_long)
                 isValid = false
             }
 

@@ -26,7 +26,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/login_text"
-        app:startIconDrawable="@drawable/ic_email">
+        app:startIconDrawable="@drawable/ic_email"
+        app:errorEnabled="true">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/email_edit_text"
@@ -49,7 +50,8 @@
         app:layout_constraintEnd_toEndOf="@id/email_edit_text_layout"
         app:layout_constraintStart_toStartOf="@id/email_edit_text_layout"
         app:layout_constraintTop_toBottomOf="@id/email_edit_text_layout"
-        app:startIconDrawable="@drawable/ic_password">
+        app:startIconDrawable="@drawable/ic_password"
+        app:errorEnabled="true">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/password_edit_text"
@@ -58,7 +60,7 @@
             android:autofillHints="password"
             android:fontFamily="@font/titillium_web"
             android:hint="@string/password"
-            android:imeOptions="actionNext"
+            android:imeOptions="actionDone"
             android:inputType="textPassword" />
 
     </com.google.android.material.textfield.TextInputLayout>
