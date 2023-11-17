@@ -11,7 +11,6 @@ import com.google.firebase.auth.FirebaseAuthUserCollisionException
 import com.google.firebase.auth.FirebaseAuthWeakPasswordException
 import com.google.firebase.firestore.FirebaseFirestore
 import javax.inject.Inject
-import kotlin.Exception
 
 class AuthenticationRepositoryImpl @Inject constructor(
     private val authentication: FirebaseAuth, private val database: FirebaseFirestore
@@ -22,13 +21,15 @@ class AuthenticationRepositoryImpl @Inject constructor(
         authentication.createUserWithEmailAndPassword(email, password).addOnCompleteListener {
             if (it.isSuccessful) {
                 updateUser(user) { state ->
-                    when(state) {
+                    when (state) {
                         is State.Loading -> {
 
                         }
+
                         is State.Success -> {
                             State.Success("User registered successfully")
                         }
+
                         is State.Error -> {
                             result.invoke(State.Error(state.message.toString()))
                         }
@@ -72,9 +73,17 @@ class AuthenticationRepositoryImpl @Inject constructor(
         }
     }
 
-
-    override fun login(user: User, password: String, result: (State<User>) -> Unit) {
-
+    override fun login(email: String, password: String, result: (State<String>) -> Unit) {
+        authentication.signInWithEmailAndPassword(email, password).addOnCompleteListener {
+            if (it.isSuccessful) {
+                result.invoke(State.Success("Login successfully!"))
+            } else {
+                result.invoke(State.Error("Authentication failed, Check email and password"))
+            }
+        }.addOnFailureListener {
+            result.invoke(State.Error("Authentication failed, Check email and password"))
+        }
     }
+
 
 }
