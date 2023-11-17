@@ -14,6 +14,7 @@ import com.example.keepnotes.appComponent
 import com.example.keepnotes.data.model.Note
 import com.example.keepnotes.databinding.FragmentNoteDetailBinding
 import com.example.keepnotes.di.ViewModelFactory
+import com.example.keepnotes.domain.repository.NavigationConstants
 import java.util.Date
 import javax.inject.Inject
 
@@ -52,14 +53,14 @@ class NoteDetailFragment : Fragment() {
     }
 
     private fun getNote() {
-        val type = arguments?.getString("type")
+        val type = arguments?.getString(NavigationConstants.TYPE)
         type.let {
-            if (type == "update") {
+            if (type == NavigationConstants.UPDATE) {
                 note = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                    arguments?.getParcelable("note", Note::class.java)
+                    arguments?.getParcelable(NavigationConstants.NOTE, Note::class.java)
                 } else {
                     @Suppress("DEPRECATION")
-                    arguments?.getParcelable("note") as? Note
+                    arguments?.getParcelable(NavigationConstants.NOTE) as? Note
                 }
 
                 binding.titleEditText.setText(note?.title)
@@ -82,10 +83,10 @@ class NoteDetailFragment : Fragment() {
     private fun addNote() {
         if (validation()) {
             if (if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                    arguments?.getParcelable("note", Note::class.java) == null
+                    arguments?.getParcelable(NavigationConstants.NOTE, Note::class.java) == null
                 } else {
                     @Suppress("DEPRECATION")
-                    arguments?.getParcelable("note") as? Note == null
+                    arguments?.getParcelable(NavigationConstants.NOTE) as? Note == null
                 }
             ) {
                 viewModel.addNote(

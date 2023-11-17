@@ -12,6 +12,7 @@ import com.example.keepnotes.R
 import com.example.keepnotes.appComponent
 import com.example.keepnotes.databinding.FragmentNoteListingBinding
 import com.example.keepnotes.di.ViewModelFactory
+import com.example.keepnotes.domain.repository.NavigationConstants
 import com.example.keepnotes.domain.repository.State
 import javax.inject.Inject
 
@@ -30,8 +31,8 @@ class NoteListingFragment : Fragment() {
                 findNavController().navigate(
                     R.id.action_noteListingFragment_to_noteDetailFragment,
                     Bundle().apply {
-                        putString("type", "update")
-                        putParcelable("note", item)
+                        putString(NavigationConstants.TYPE, NavigationConstants.UPDATE)
+                        putParcelable(NavigationConstants.NOTE, item)
                     })
             }
         )
@@ -58,7 +59,7 @@ class NoteListingFragment : Fragment() {
             findNavController().navigate(
                 R.id.action_noteListingFragment_to_noteDetailFragment,
                 Bundle().apply {
-                    putString("type", "create")
+                    putString(NavigationConstants.TYPE, NavigationConstants.CREATE)
                 })
         }
         binding.recyclerViewOfNotes.adapter = adapter
