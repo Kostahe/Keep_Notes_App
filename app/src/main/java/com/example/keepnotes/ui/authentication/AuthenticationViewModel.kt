@@ -19,6 +19,10 @@ class AuthenticationViewModel @Inject constructor(
     val login: LiveData<State<String>>
         get() = _login
 
+    private val _forgotPassword = MutableLiveData<State<String>>()
+    val forgotPassword: LiveData<State<String>>
+        get() = _forgotPassword
+
     fun register(
         email: String, password: String, user: User
     ) {
@@ -38,5 +42,10 @@ class AuthenticationViewModel @Inject constructor(
         ) {
             _login.value = it
         }
+    }
+
+    fun forgotPassword(email: String) {
+        _forgotPassword.value = State.Loading()
+
     }
 }
