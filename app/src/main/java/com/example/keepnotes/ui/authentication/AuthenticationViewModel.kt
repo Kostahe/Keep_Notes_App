@@ -15,14 +15,28 @@ class AuthenticationViewModel @Inject constructor(
     val register: LiveData<State<String>>
         get() = _register
 
+    private val _login = MutableLiveData<State<String>>()
+    val login: LiveData<State<String>>
+        get() = _login
+
     fun register(
-        email: String,
-        password: String,
-        user: User
+        email: String, password: String, user: User
     ) {
         _register.value = State.Loading()
         repository.register(email, password, user) {
             _register.value = it
+        }
+    }
+
+    fun login(
+        email: String, password: String
+    ) {
+        _login.value = State.Loading()
+        repository.login(
+            email = email,
+            password = password
+        ) {
+            _login.value = it
         }
     }
 }
