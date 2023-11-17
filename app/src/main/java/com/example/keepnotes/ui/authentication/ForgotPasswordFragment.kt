@@ -5,14 +5,23 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import com.example.keepnotes.R
+import com.example.keepnotes.appComponent
+import com.example.keepnotes.di.ViewModelFactory
+import javax.inject.Inject
 
 
-class ForgotPassword : Fragment() {
+class ForgotPasswordFragment : Fragment() {
+
+    @Inject
+    lateinit var viewModelFactory: ViewModelFactory
+    private lateinit var viewModel: AuthenticationViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
+        context?.appComponent?.injectToForgotPasswordFragment(this)
+        viewModel = ViewModelProvider(this, viewModelFactory)[AuthenticationViewModel::class.java]
     }
 
     override fun onCreateView(
