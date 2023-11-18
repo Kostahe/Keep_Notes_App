@@ -48,8 +48,9 @@ class LoginFragment : Fragment() {
                 passwordEditTextLayout.error = null
             }
 
-
-
+            forgotPasswordButton.setOnClickListener {
+                findNavController().navigate(R.id.action_loginFragment_to_forgotPasswordFragment)
+            }
 
             loginButton.setOnClickListener {
                 if (validation()) {
@@ -103,7 +104,8 @@ class LoginFragment : Fragment() {
                 passwordEditTextLayout.error = getString(R.string.password_can_not_contain_spaces)
                 isValid = false
             } else if (passwordEditText.text.toString().length < 8) {
-                passwordEditTextLayout.error = getString(R.string.password_can_not_be_less_than_8_characters_long)
+                passwordEditTextLayout.error =
+                    getString(R.string.password_can_not_be_less_than_8_characters_long)
                 isValid = false
             }
 
