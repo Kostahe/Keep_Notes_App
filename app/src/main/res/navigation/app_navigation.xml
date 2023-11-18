@@ -46,5 +46,12 @@
         <action
             android:id="@+id/action_loginFragment_to_noteListingFragment"
             app:destination="@id/noteListingFragment" />
+        <action
+            android:id="@+id/action_loginFragment_to_forgotPasswordFragment"
+            app:destination="@id/forgotPasswordFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/forgotPasswordFragment"
+        android:name="com.example.keepnotes.ui.authentication.ForgotPasswordFragment"
+        android:label="ForgotPasswordFragment" />
 </navigation>
