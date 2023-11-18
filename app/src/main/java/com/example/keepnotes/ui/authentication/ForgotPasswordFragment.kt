@@ -66,6 +66,7 @@ class ForgotPasswordFragment : Fragment() {
                     }
                     is State.Success -> {
                         progressBar.visibility = View.INVISIBLE
+                        Toast.makeText(context, state.data, Toast.LENGTH_SHORT).show()
                     }
                 }
             }
