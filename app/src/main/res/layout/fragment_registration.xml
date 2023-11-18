@@ -94,9 +94,9 @@
         style="@style/Widget.Material3.Button.OutlinedButton"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="35dp"
+        android:layout_marginTop="20dp"
         android:text="@string/register"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/password_edit_text_layout"
         app:layout_constraintEnd_toEndOf="@id/username_edit_text_layout"
         app:layout_constraintStart_toStartOf="@id/username_edit_text_layout"
         app:strokeColor="?attr/colorPrimary" />
