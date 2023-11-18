@@ -66,10 +66,9 @@ class RegistrationFragment : Fragment() {
 
                     is State.Error -> {
                         progressBar.visibility = View.INVISIBLE
-                        Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(context, state.message, Toast.LENGTH_SHORT).show()
                     }
                 }
-
             }
 
 
@@ -112,7 +111,7 @@ class RegistrationFragment : Fragment() {
 
             } else if (" " in emailEditText.text.toString()) {
                 isValid = false
-                usernameEditTextLayout.error = getString(R.string.email_can_not_contain_spaces)
+                emailEditTextLayout.error = getString(R.string.email_can_not_contain_spaces)
             } else if (!android.util.Patterns.EMAIL_ADDRESS.matcher(
                     emailEditText.text.toString().trim()
                 ).matches()
