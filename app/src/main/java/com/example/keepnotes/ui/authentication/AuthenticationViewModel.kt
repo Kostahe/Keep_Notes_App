@@ -46,6 +46,8 @@ class AuthenticationViewModel @Inject constructor(
 
     fun forgotPassword(email: String) {
         _forgotPassword.value = State.Loading()
-
+        repository.forgotPassword(email) {
+            _forgotPassword.value = it
+        }
     }
 }
