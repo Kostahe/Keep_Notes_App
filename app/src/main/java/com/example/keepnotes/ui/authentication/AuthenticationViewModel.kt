@@ -50,4 +50,8 @@ class AuthenticationViewModel @Inject constructor(
             _forgotPassword.value = it
         }
     }
+
+    fun logout() {
+        repository.logout()
+    }
 }
