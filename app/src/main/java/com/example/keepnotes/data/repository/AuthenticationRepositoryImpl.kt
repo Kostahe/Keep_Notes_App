@@ -105,5 +105,18 @@ class AuthenticationRepositoryImpl @Inject constructor(
         authentication.signOut()
     }
 
+    private fun storeSession(id: String, result: (User?) -> Unit) {
+        database.collection(FireStoreTables.USER).document(id)
+            .get()
+            .addOnCompleteListener {
+                val user = it.result.toObject(User::class.java)
+                sharedPreferences.edit().putString()
+                result.invoke(user)
+            }
+            .addOnFailureListener {
+                result.invoke(null)
+            }
+    }
+
 
 }
