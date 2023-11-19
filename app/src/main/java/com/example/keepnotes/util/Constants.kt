@@ -17,3 +17,7 @@ object AuthenticationsErrorConstants {
     const val firebaseAuthInvalidCredentialsException = "Authentication failed, Invalid email entered"
     const val firebaseAuthUserCollisionException = "Authentication failed, Invalid email entered"
 }
+
+object SharedPreferencesConstants {
+    const val LOCAL_SHARED_PREFERENCES = "local_shared_preferences"
+}
