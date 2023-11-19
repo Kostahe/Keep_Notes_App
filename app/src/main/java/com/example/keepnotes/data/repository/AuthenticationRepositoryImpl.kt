@@ -98,5 +98,9 @@ class AuthenticationRepositoryImpl @Inject constructor(
             }
     }
 
+    override fun logout() {
+        authentication.signOut()
+    }
+
 
 }
