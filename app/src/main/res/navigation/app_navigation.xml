@@ -14,6 +14,9 @@
             android:id="@+id/action_noteListingFragment_to_noteDetailFragment"
             app:destination="@id/noteDetailFragment"
             app:enterAnim="@android:anim/fade_in" />
+        <action
+            android:id="@+id/action_noteListingFragment_to_welcomeFragment"
+            app:destination="@id/welcomeFragment" />
     </fragment>
     <fragment
         android:id="@+id/noteDetailFragment"
