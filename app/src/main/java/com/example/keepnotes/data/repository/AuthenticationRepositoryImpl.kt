@@ -2,8 +2,8 @@ package com.example.keepnotes.data.repository
 
 import com.example.keepnotes.data.model.User
 import com.example.keepnotes.domain.repository.AuthenticationRepository
-import com.example.keepnotes.domain.repository.AuthenticationsErrorConstants
-import com.example.keepnotes.domain.repository.FireStoreTables
+import com.example.keepnotes.util.AuthenticationsErrorConstants
+import com.example.keepnotes.util.FireStoreTables
 import com.example.keepnotes.domain.repository.State
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException

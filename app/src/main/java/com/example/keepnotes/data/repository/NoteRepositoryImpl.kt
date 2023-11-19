@@ -2,7 +2,7 @@ package com.example.keepnotes.data.repository
 
 
 import com.example.keepnotes.data.model.Note
-import com.example.keepnotes.domain.repository.FireStoreTables
+import com.example.keepnotes.util.FireStoreTables
 import com.example.keepnotes.domain.repository.NoteRepository
 import com.example.keepnotes.domain.repository.State
 import com.google.firebase.firestore.FirebaseFirestore

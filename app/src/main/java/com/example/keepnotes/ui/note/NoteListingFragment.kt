@@ -14,7 +14,7 @@ import com.example.keepnotes.R
 import com.example.keepnotes.appComponent
 import com.example.keepnotes.databinding.FragmentNoteListingBinding
 import com.example.keepnotes.di.ViewModelFactory
-import com.example.keepnotes.domain.repository.NavigationConstants
+import com.example.keepnotes.util.NavigationConstants
 import com.example.keepnotes.domain.repository.State
 import com.example.keepnotes.ui.authentication.AuthenticationViewModel
 import javax.inject.Inject

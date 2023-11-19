@@ -1,4 +1,4 @@
-package com.example.keepnotes.domain.repository
+package com.example.keepnotes.util
 
 object FireStoreTables {
     const val NOTE = "note"
