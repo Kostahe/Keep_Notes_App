@@ -1,10 +1,11 @@
 package com.example.keepnotes.data.repository
 
+import android.content.SharedPreferences
 import com.example.keepnotes.data.model.User
 import com.example.keepnotes.domain.repository.AuthenticationRepository
-import com.example.keepnotes.domain.repository.AuthenticationsErrorConstants
-import com.example.keepnotes.domain.repository.FireStoreTables
 import com.example.keepnotes.domain.repository.State
+import com.example.keepnotes.util.AuthenticationsErrorConstants
+import com.example.keepnotes.util.FireStoreTables
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import com.google.firebase.auth.FirebaseAuthUserCollisionException
@@ -13,7 +14,9 @@ import com.google.firebase.firestore.FirebaseFirestore
 import javax.inject.Inject
 
 class AuthenticationRepositoryImpl @Inject constructor(
-    private val authentication: FirebaseAuth, private val database: FirebaseFirestore
+    private val authentication: FirebaseAuth,
+    private val database: FirebaseFirestore,
+    private val sharedPreferences: SharedPreferences
 ) : AuthenticationRepository {
     override fun register(
         email: String, password: String, user: User, result: (State<String>) -> Unit
@@ -95,6 +98,23 @@ class AuthenticationRepositoryImpl @Inject constructor(
                 }
             }.addOnFailureListener {
                 result.invoke(State.Error("Authentication failed, Check email"))
+            }
+    }
+
+    override fun logout() {
+        authentication.signOut()
+    }
+
+    private fun storeSession(id: String, result: (User?) -> Unit) {
+        database.collection(FireStoreTables.USER).document(id)
+            .get()
+            .addOnCompleteListener {
+                val user = it.result.toObject(User::class.java)
+                sharedPreferences.edit().putString()
+                result.invoke(user)
+            }
+            .addOnFailureListener {
+                result.invoke(null)
             }
     }
 
