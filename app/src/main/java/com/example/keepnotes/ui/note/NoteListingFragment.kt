@@ -1,13 +1,14 @@
 package com.example.keepnotes.ui.note
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.example.keepnotes.R
 import com.example.keepnotes.appComponent
 import com.example.keepnotes.databinding.FragmentNoteListingBinding
@@ -63,7 +64,7 @@ class NoteListingFragment : Fragment() {
                 })
         }
         binding.recyclerViewOfNotes.adapter = adapter
-        binding.recyclerViewOfNotes.layoutManager = GridLayoutManager(context, 2)
+        binding.recyclerViewOfNotes.layoutManager = StaggeredGridLayoutManager(2, LinearLayoutManager.VERTICAL)
         viewModel.getNotes()
         viewModel.note.observe(viewLifecycleOwner) { noteState ->
             when (noteState) {
