@@ -5,11 +5,13 @@ import android.content.SharedPreferences
 import com.example.keepnotes.util.SharedPreferencesConstants
 import dagger.Module
 import dagger.Provides
+import javax.inject.Singleton
 
 @Module
 object AppModule {
 
     @Provides
+    @Singleton
     fun provideSharedPreferences(context: Context): SharedPreferences {
         return context.getSharedPreferences(SharedPreferencesConstants.LOCAL_SHARED_PREFERENCES, Context.MODE_PRIVATE)
     }

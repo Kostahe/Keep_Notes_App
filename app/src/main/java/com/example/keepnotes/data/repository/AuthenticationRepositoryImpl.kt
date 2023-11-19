@@ -1,10 +1,11 @@
 package com.example.keepnotes.data.repository
 
+import android.content.SharedPreferences
 import com.example.keepnotes.data.model.User
 import com.example.keepnotes.domain.repository.AuthenticationRepository
+import com.example.keepnotes.domain.repository.State
 import com.example.keepnotes.util.AuthenticationsErrorConstants
 import com.example.keepnotes.util.FireStoreTables
-import com.example.keepnotes.domain.repository.State
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import com.google.firebase.auth.FirebaseAuthUserCollisionException
@@ -13,7 +14,9 @@ import com.google.firebase.firestore.FirebaseFirestore
 import javax.inject.Inject
 
 class AuthenticationRepositoryImpl @Inject constructor(
-    private val authentication: FirebaseAuth, private val database: FirebaseFirestore
+    private val authentication: FirebaseAuth,
+    private val database: FirebaseFirestore,
+    private val sharedPreferences: SharedPreferences
 ) : AuthenticationRepository {
     override fun register(
         email: String, password: String, user: User, result: (State<String>) -> Unit
