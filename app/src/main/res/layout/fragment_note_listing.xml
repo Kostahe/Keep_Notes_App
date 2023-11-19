@@ -57,7 +57,8 @@
                 android:layout_height="wrap_content"
                 android:hint="@string/search_your_notes"
                 app:backgroundTint="?attr/colorBackgroundFloating"
-                app:navigationIcon="@drawable/ic_menu" />
+                app:navigationIcon="@drawable/ic_menu"
+                app:menu="@menu/menu"/>
 
 
         </com.google.android.material.appbar.AppBarLayout>
