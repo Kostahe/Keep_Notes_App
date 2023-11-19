@@ -1,6 +1,7 @@
 package com.example.keepnotes.di
 
 import android.app.Application
+import android.content.Context
 import com.example.keepnotes.ui.authentication.ForgotPasswordFragment
 import com.example.keepnotes.ui.authentication.LoginFragment
 import com.example.keepnotes.ui.authentication.RegistrationFragment
@@ -12,7 +13,7 @@ import javax.inject.Singleton
 
 
 @Singleton
-@Component(modules = [ViewModelModule::class, RepositoryModule::class, FireBaseModule::class])
+@Component(modules = [ViewModelModule::class, RepositoryModule::class, FireBaseModule::class, AppModule::class])
 interface AppComponent {
 
     fun injectToNoteListFragment(noteListingFragment: NoteListingFragment)
@@ -28,5 +29,9 @@ interface AppComponent {
 
         @BindsInstance
         fun app(app: Application): Builder
+
+        @BindsInstance
+        fun context(context: Context): Builder
+
     }
 }
