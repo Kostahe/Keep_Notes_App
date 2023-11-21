@@ -16,14 +16,37 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
-            <com.google.android.material.search.SearchBar
-                android:id="@+id/search_bar"
+            <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/search_your_notes"
-                app:backgroundTint="?attr/colorBackgroundFloating"
-                app:menu="@menu/menu"
-                app:navigationIcon="@drawable/ic_menu" />
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+                    <com.google.android.material.search.SearchBar
+                        android:id="@+id/search_bar"
+                        android:layout_width="320dp"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/search_your_notes"
+                        app:backgroundTint="?attr/colorBackgroundFloating"
+                        app:navigationIcon="@drawable/ic_menu" />
+
+                    <ImageButton
+                        android:id="@+id/log_out_button"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:background="?attr/colorBackgroundFloating"
+                        android:layout_marginEnd="20dp"
+                        app:srcCompat="@drawable/ic_log_out"
+                        android:contentDescription="@string/log_out_button" />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+
+
         </com.google.android.material.appbar.AppBarLayout>
 
         <androidx.recyclerview.widget.RecyclerView
@@ -50,6 +73,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:srcCompat="@drawable/ic_add" />
 
+
         <ProgressBar
             android:id="@+id/progress_bar"
             android:layout_width="wrap_content"
@@ -63,6 +87,7 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <com.google.android.material.search.SearchView
+        android:id="@+id/search_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:hint="@string/search_your_notes"
@@ -78,38 +103,3 @@
 
     </com.google.android.material.search.SearchView>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
-
-
-    <!--    <androidx.recyclerview.widget.RecyclerView-->
-    <!--        android:id="@+id/recycler_view_of_notes"-->
-    <!--        android:layout_width="match_parent"-->
-    <!--        android:layout_height="0dp"-->
-    <!--        android:layout_marginVertical="16dp"-->
-    <!--        android:orientation="vertical"-->
-    <!--        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"-->
-    <!--        app:layout_constraintBottom_toBottomOf="parent"-->
-    <!--        app:layout_constraintStart_toStartOf="parent"-->
-    <!--        app:layout_constraintTop_toBottomOf="@id/app_bar" />-->
-
-    <!--    <com.google.android.material.floatingactionbutton.FloatingActionButton-->
-    <!--        android:id="@+id/floating_action_button"-->
-    <!--        android:layout_width="wrap_content"-->
-    <!--        android:layout_height="wrap_content"-->
-    <!--        android:layout_marginEnd="24dp"-->
-    <!--        android:layout_marginBottom="24dp"-->
-    <!--        android:clickable="true"-->
-    <!--        android:contentDescription="@string/add_note_button"-->
-    <!--        android:focusable="true"-->
-    <!--        app:layout_constraintBottom_toBottomOf="parent"-->
-    <!--        app:layout_constraintEnd_toEndOf="parent"-->
-    <!--        app:srcCompat="@drawable/ic_add" />-->
-
-    <!--    <ProgressBar-->
-    <!--        android:id="@+id/progress_bar"-->
-    <!--        android:layout_width="wrap_content"-->
-    <!--        android:layout_height="wrap_content"-->
-    <!--        android:visibility="invisible"-->
-    <!--        app:layout_constraintBottom_toBottomOf="parent"-->
-    <!--        app:layout_constraintEnd_toEndOf="parent"-->
-    <!--        app:layout_constraintStart_toStartOf="parent"-->
-    <!--        app:layout_constraintTop_toTopOf="parent" />-->
