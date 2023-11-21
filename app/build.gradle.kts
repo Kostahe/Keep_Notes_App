@@ -72,4 +72,7 @@ dependencies {
     kapt("com.google.dagger:dagger-android-processor:$daggerVersion")
     kapt("com.google.dagger:dagger-compiler:$daggerVersion")
 
+    //Gson
+    implementation("com.google.code.gson:gson:2.9.0")
+
 }

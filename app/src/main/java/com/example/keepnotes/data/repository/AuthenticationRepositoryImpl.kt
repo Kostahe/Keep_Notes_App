@@ -6,17 +6,20 @@ import com.example.keepnotes.domain.repository.AuthenticationRepository
 import com.example.keepnotes.domain.repository.State
 import com.example.keepnotes.util.AuthenticationsErrorConstants
 import com.example.keepnotes.util.FireStoreTables
+import com.example.keepnotes.util.SharedPreferencesConstants
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import com.google.firebase.auth.FirebaseAuthUserCollisionException
 import com.google.firebase.auth.FirebaseAuthWeakPasswordException
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.gson.Gson
 import javax.inject.Inject
 
 class AuthenticationRepositoryImpl @Inject constructor(
     private val authentication: FirebaseAuth,
     private val database: FirebaseFirestore,
-    private val sharedPreferences: SharedPreferences
+    private val sharedPreferences: SharedPreferences,
+    private val gson: Gson
 ) : AuthenticationRepository {
     override fun register(
         email: String, password: String, user: User, result: (State<String>) -> Unit
@@ -109,14 +112,16 @@ class AuthenticationRepositoryImpl @Inject constructor(
         database.collection(FireStoreTables.USER).document(id)
             .get()
             .addOnCompleteListener {
-                val user = it.result.toObject(User::class.java)
-                sharedPreferences.edit().putString()
-                result.invoke(user)
+                if (it.isSuccessful) {
+                    val user = it.result.toObject(User::class.java)
+                    sharedPreferences.edit().putString(SharedPreferencesConstants.USER_SESSION, gson.toJson(user)).apply()
+                    result.invoke(user)
+                } else {
+                    result.invoke(null)
+                }
             }
             .addOnFailureListener {
                 result.invoke(null)
             }
     }
-
-
 }

@@ -20,4 +20,5 @@ object AuthenticationsErrorConstants {
 
 object SharedPreferencesConstants {
     const val LOCAL_SHARED_PREFERENCES = "local_shared_preferences"
+    const val USER_SESSION = "user_session"
 }
