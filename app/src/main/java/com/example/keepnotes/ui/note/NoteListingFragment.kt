@@ -14,9 +14,9 @@ import com.example.keepnotes.R
 import com.example.keepnotes.appComponent
 import com.example.keepnotes.databinding.FragmentNoteListingBinding
 import com.example.keepnotes.di.ViewModelFactory
-import com.example.keepnotes.util.NavigationConstants
 import com.example.keepnotes.domain.repository.State
 import com.example.keepnotes.ui.authentication.AuthenticationViewModel
+import com.example.keepnotes.util.NavigationConstants
 import javax.inject.Inject
 
 
@@ -52,24 +52,17 @@ class NoteListingFragment : Fragment() {
     ): View {
         binding = FragmentNoteListingBinding.inflate(layoutInflater)
         (requireActivity() as AppCompatActivity).setSupportActionBar(binding.searchBar)
-        binding.searchBar.inflateMenu(R.menu.menu)
-        binding.searchBar.setOnMenuItemClickListener { menuItem ->
-            when (menuItem.itemId) {
-                R.id.log_out_button -> {
-                    authenticationViewModel.logout()
-                    findNavController().navigate(R.id.action_noteListingFragment_to_welcomeFragment)
-                    true
-                }
-
-                else -> false
-            }
-        }
 
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        binding.logOutButton.setOnClickListener {
+            authenticationViewModel.logout()
+            findNavController().navigate(R.id.action_noteListingFragment_to_welcomeFragment)
+        }
 
         binding.floatingActionButton.setOnClickListener {
             findNavController().navigate(R.id.action_noteListingFragment_to_noteDetailFragment,
