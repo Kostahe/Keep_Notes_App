@@ -5,13 +5,27 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.example.keepnotes.R
+import com.example.keepnotes.appComponent
 import com.example.keepnotes.databinding.FragmentWelcomeBinding
+import com.example.keepnotes.di.ViewModelFactory
+import javax.inject.Inject
 
 class WelcomeFragment : Fragment() {
 
     private lateinit var binding: FragmentWelcomeBinding
+
+    @Inject
+    lateinit var viewModelFactory: ViewModelFactory
+    lateinit var authenticationViewModel: AuthenticationViewModel
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        context?.appComponent?.injectToWelcomeFragment(this)
+        authenticationViewModel = ViewModelProvider(this, viewModelFactory)[AuthenticationViewModel::class.java]
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
