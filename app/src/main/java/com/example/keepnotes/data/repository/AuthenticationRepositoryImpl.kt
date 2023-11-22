@@ -24,8 +24,8 @@ class AuthenticationRepositoryImpl @Inject constructor(
     override fun register(
         email: String, password: String, user: User, result: (State<String>) -> Unit
     ) {
-        authentication.createUserWithEmailAndPassword(email, password).addOnCompleteListener {
-            if (it.isSuccessful) {
+        authentication.createUserWithEmailAndPassword(email, password).addOnCompleteListener { task ->
+            if (task.isSuccessful) {
                 updateUser(user) { state ->
                     when (state) {
                         is State.Loading -> {
@@ -33,7 +33,7 @@ class AuthenticationRepositoryImpl @Inject constructor(
                         }
 
                         is State.Success -> {
-                            State.Success("User registered successfully")
+                            storeSession(id = task.result.user?.uid ?: "")
                         }
 
                         is State.Error -> {
@@ -41,12 +41,9 @@ class AuthenticationRepositoryImpl @Inject constructor(
                         }
                     }
                 }
-                result.invoke(
-                    State.Success("User registered successfully")
-                )
             } else {
                 try {
-                    throw it.exception ?: Exception("Unknown error")
+                    throw task.exception ?: Exception("Unknown error")
                 } catch (e: FirebaseAuthWeakPasswordException) {
                     result.invoke(State.Error(AuthenticationsErrorConstants.firebaseAuthWeakPasswordException))
                 } catch (e: FirebaseAuthInvalidCredentialsException) {
@@ -107,8 +104,8 @@ class AuthenticationRepositoryImpl @Inject constructor(
     }
 
     override fun logout() {
+        sharedPreferences.edit().putString(SharedPreferencesConstants.USER_SESSION, null).apply()
         authentication.signOut()
-        sharedPreferences.edit().apply()
     }
 
     override fun storeSession(id: String) {

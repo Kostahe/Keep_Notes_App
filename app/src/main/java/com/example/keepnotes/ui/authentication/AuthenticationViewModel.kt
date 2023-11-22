@@ -33,11 +33,11 @@ class AuthenticationViewModel @Inject constructor(
     }
 
     fun login(
-        email: String, password: String, rememberMe: Boolean
+        email: String, password: String
     ) {
         _login.value = State.Loading()
         repository.login(
-            email = email, password = password, rememberMe = rememberMe
+            email = email, password = password
 
         ) {
             _login.value = it
