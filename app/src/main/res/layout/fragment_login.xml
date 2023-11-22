@@ -71,7 +71,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/forgot_password"
-        android:textSize="17sp"
+        android:textSize="15sp"
         android:textColor="?attr/colorPrimary"
         app:layout_constraintEnd_toEndOf="@id/email_edit_text_layout"
         app:layout_constraintTop_toBottomOf="@id/password_edit_text_layout"/>

@@ -56,7 +56,8 @@ class LoginFragment : Fragment() {
                 if (validation()) {
                     viewModel.login(
                         email = emailEditText.text.toString(),
-                        password = passwordEditText.text.toString()
+                        password = passwordEditText.text.toString(),
+                        rememberMe = binding.rememberMeRadio.isActivated
                     )
                 }
 

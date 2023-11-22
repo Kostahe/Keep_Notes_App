@@ -20,6 +20,13 @@ class WelcomeFragment : Fragment() {
         return binding.root
     }
 
+    override fun onStart() {
+        super.onStart()
+        viewModel.getSession().let {
+            findNavController().navigate(R.id.action_loginFragment_to_noteListingFragment)
+        }
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
