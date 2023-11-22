@@ -5,6 +5,7 @@ import android.content.Context
 import com.example.keepnotes.ui.authentication.ForgotPasswordFragment
 import com.example.keepnotes.ui.authentication.LoginFragment
 import com.example.keepnotes.ui.authentication.RegistrationFragment
+import com.example.keepnotes.ui.authentication.WelcomeFragment
 import com.example.keepnotes.ui.note.NoteDetailFragment
 import com.example.keepnotes.ui.note.NoteListingFragment
 import dagger.BindsInstance
@@ -21,6 +22,7 @@ interface AppComponent {
     fun injectToRegistrationFragment(registrationFragment: RegistrationFragment)
     fun injectToLoginFragment(loginFragment: LoginFragment)
     fun injectToForgotPasswordFragment(forgotPasswordFragment: ForgotPasswordFragment)
+    fun injectToWelcomeFragment(welcomeFragment: WelcomeFragment)
 
     @Component.Builder
     interface Builder {
