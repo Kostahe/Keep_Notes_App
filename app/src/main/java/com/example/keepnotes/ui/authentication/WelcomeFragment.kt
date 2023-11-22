@@ -1,6 +1,7 @@
 package com.example.keepnotes.ui.authentication
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -19,12 +20,22 @@ class WelcomeFragment : Fragment() {
 
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
-    lateinit var authenticationViewModel: AuthenticationViewModel
+    private lateinit var authenticationViewModel: AuthenticationViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         context?.appComponent?.injectToWelcomeFragment(this)
-        authenticationViewModel = ViewModelProvider(this, viewModelFactory)[AuthenticationViewModel::class.java]
+        authenticationViewModel =
+            ViewModelProvider(this, viewModelFactory)[AuthenticationViewModel::class.java]
+    }
+
+    override fun onStart() {
+        super.onStart()
+        Log.d("TEST", authenticationViewModel.getSession().toString())
+        authenticationViewModel.getSession().let {
+            findNavController().navigate(R.id.action_welcomeFragment_to_noteListingFragment)
+
+        }
     }
 
     override fun onCreateView(
@@ -32,13 +43,6 @@ class WelcomeFragment : Fragment() {
     ): View {
         binding = FragmentWelcomeBinding.inflate(layoutInflater)
         return binding.root
-    }
-
-    override fun onStart() {
-        super.onStart()
-        viewModel.getSession().let {
-            findNavController().navigate(R.id.action_loginFragment_to_noteListingFragment)
-        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
