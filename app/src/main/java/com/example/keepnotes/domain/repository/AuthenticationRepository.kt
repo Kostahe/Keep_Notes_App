@@ -8,4 +8,6 @@ interface AuthenticationRepository {
     fun login(email: String, password: String, result: (State<String>) -> Unit)
     fun forgotPassword(email: String, result: (State<String>) -> Unit)
     fun logout()
+    fun storeSession(id: String)
+    fun getSession(): User?
 }

@@ -79,9 +79,12 @@ class AuthenticationRepositoryImpl @Inject constructor(
         }
     }
 
-    override fun login(email: String, password: String, result: (State<String>) -> Unit) {
-        authentication.signInWithEmailAndPassword(email, password).addOnCompleteListener {
-            if (it.isSuccessful) {
+    override fun login(
+        email: String, password: String, result: (State<String>) -> Unit
+    ) {
+        authentication.signInWithEmailAndPassword(email, password).addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                storeSession(task.result.user?.uid ?: "")
                 result.invoke(State.Success("Login successfully!"))
             } else {
                 result.invoke(State.Error("Authentication failed, Check email and password"))
@@ -92,36 +95,38 @@ class AuthenticationRepositoryImpl @Inject constructor(
     }
 
     override fun forgotPassword(email: String, result: (State<String>) -> Unit) {
-        authentication.sendPasswordResetEmail(email)
-            .addOnCompleteListener { task ->
-                if (task.isSuccessful) {
-                    result.invoke(State.Success("Email has been sent"))
-                } else {
-                    result.invoke(State.Error(task.exception?.message.toString()))
-                }
-            }.addOnFailureListener {
-                result.invoke(State.Error("Authentication failed, Check email"))
+        authentication.sendPasswordResetEmail(email).addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                result.invoke(State.Success("Email has been sent"))
+            } else {
+                result.invoke(State.Error(task.exception?.message.toString()))
             }
+        }.addOnFailureListener {
+            result.invoke(State.Error("Authentication failed, Check email"))
+        }
     }
 
     override fun logout() {
         authentication.signOut()
+        sharedPreferences.edit().apply()
     }
 
-    private fun storeSession(id: String, result: (User?) -> Unit) {
-        database.collection(FireStoreTables.USER).document(id)
-            .get()
-            .addOnCompleteListener {
-                if (it.isSuccessful) {
-                    val user = it.result.toObject(User::class.java)
-                    sharedPreferences.edit().putString(SharedPreferencesConstants.USER_SESSION, gson.toJson(user)).apply()
-                    result.invoke(user)
-                } else {
-                    result.invoke(null)
-                }
+    override fun storeSession(id: String) {
+        database.collection(FireStoreTables.USER).document(id).get().addOnCompleteListener {
+            if (it.isSuccessful) {
+                val user = it.result.toObject(User::class.java)
+                sharedPreferences.edit()
+                    .putString(SharedPreferencesConstants.USER_SESSION, gson.toJson(user)).apply()
             }
-            .addOnFailureListener {
-                result.invoke(null)
-            }
+        }
+    }
+
+    override fun getSession(): User? {
+        val userString = sharedPreferences.getString(SharedPreferencesConstants.USER_SESSION, null)
+        return if (userString == null) {
+            null
+        } else {
+            gson.fromJson(userString, User::class.java)
+        }
     }
 }
