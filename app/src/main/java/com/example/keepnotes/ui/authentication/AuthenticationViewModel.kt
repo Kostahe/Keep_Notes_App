@@ -33,12 +33,12 @@ class AuthenticationViewModel @Inject constructor(
     }
 
     fun login(
-        email: String, password: String
+        email: String, password: String, rememberMe: Boolean
     ) {
         _login.value = State.Loading()
         repository.login(
-            email = email,
-            password = password
+            email = email, password = password, rememberMe = rememberMe
+
         ) {
             _login.value = it
         }
@@ -53,5 +53,9 @@ class AuthenticationViewModel @Inject constructor(
 
     fun logout() {
         repository.logout()
+    }
+
+    fun getSession(): User? {
+        return repository.getSession()
     }
 }
