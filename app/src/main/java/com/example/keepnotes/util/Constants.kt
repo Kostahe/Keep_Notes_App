@@ -5,6 +5,11 @@ object FireStoreTables {
     const val USER = "user"
 }
 
+object FireStoreDocumentField {
+    const val DATE = "date"
+    const val USER_ID = "userId"
+}
+
 object NavigationConstants {
     const val CREATE = "create"
     const val UPDATE = "update"
