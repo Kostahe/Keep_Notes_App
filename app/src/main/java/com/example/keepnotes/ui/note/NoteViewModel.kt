@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.keepnotes.data.model.Note
+import com.example.keepnotes.data.model.User
 import com.example.keepnotes.domain.repository.NoteRepository
 import com.example.keepnotes.domain.repository.State
 import javax.inject.Inject
@@ -24,14 +25,14 @@ class NoteViewModel @Inject constructor(
     val updatedNote: LiveData<State<String>>
         get() = _updatedNote
 
-    fun getNotes() {
+    fun getNotes(user: User?) {
         _notes.value = State.Loading()
-        repository.getNotes { _notes.value = it }
+        repository.getNotes(user) { _notes.value = it }
     }
 
     fun addNote(note: Note) {
         _addedNote.value = State.Loading()
-        repository.addNotes(note) { _addedNote.value = it }
+        repository.addNote(note) { _addedNote.value = it }
     }
 
     fun updateNote(note: Note) {
