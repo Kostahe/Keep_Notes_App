@@ -2,18 +2,19 @@ package com.example.keepnotes.ui.note
 
 import android.os.Build
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.example.keepnotes.appComponent
 import com.example.keepnotes.data.model.Note
 import com.example.keepnotes.databinding.FragmentNoteDetailBinding
 import com.example.keepnotes.di.ViewModelFactory
+import com.example.keepnotes.ui.authentication.AuthenticationViewModel
 import com.example.keepnotes.util.NavigationConstants
 import java.util.Date
 import javax.inject.Inject
@@ -25,6 +26,7 @@ class NoteDetailFragment : Fragment() {
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
     private lateinit var viewModel: NoteViewModel
+    private lateinit var authViewModel: AuthenticationViewModel
 
     var note: Note? = null
 
@@ -32,6 +34,7 @@ class NoteDetailFragment : Fragment() {
         super.onCreate(savedInstanceState)
         context?.appComponent?.injectToNoteDetailFragment(this)
         viewModel = ViewModelProvider(this, viewModelFactory)[NoteViewModel::class.java]
+        authViewModel = ViewModelProvider(this, viewModelFactory)[AuthenticationViewModel::class.java]
     }
 
     override fun onCreateView(
@@ -94,7 +97,8 @@ class NoteDetailFragment : Fragment() {
                         id = "",
                         title = binding.titleEditText.text.toString(),
                         text = binding.noteEditText.text.toString(),
-                        date = Date()
+                        date = Date(),
+                        userId = authViewModel.getSession()?.id ?: ""
                     )
                 )
             } else {
@@ -103,7 +107,8 @@ class NoteDetailFragment : Fragment() {
                         id = note?.id ?: "",
                         title = binding.titleEditText.text.toString(),
                         text = binding.noteEditText.text.toString(),
-                        date = Date()
+                        date = Date(),
+                        userId = authViewModel.getSession()?.id ?: ""
                     )
                 )
             }
