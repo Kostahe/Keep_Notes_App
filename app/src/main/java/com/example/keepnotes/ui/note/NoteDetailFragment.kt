@@ -118,18 +118,14 @@ class NoteDetailFragment : Fragment() {
                     )
                 )
             }
+        } else if(!isNoteUnchanged()) {
+            Toast.makeText(context, "Changes were discarded", Toast.LENGTH_SHORT).show()
+        } else {
+            Toast.makeText(context, "Empty note was discarded", Toast.LENGTH_LONG).show()
         }
     }
 
-    private fun validation(): Boolean {
-        var isValid = true
-
-        if (binding.titleEditText.text.toString().isEmpty() and binding.noteEditText.text.toString().isEmpty()) {
-            isValid = false
-            Toast.makeText(context, "Empty note discarded", Toast.LENGTH_LONG).show()
-        }
-        return isValid
-    }
+    private fun validation(): Boolean = !(binding.titleEditText.text.toString().isEmpty() && binding.noteEditText.text.toString().isEmpty())
 
     private fun isNoteUnchanged(): Boolean = binding.titleEditText.text.toString() == note?.title && binding.noteEditText.text.toString() == note?.text
 }
