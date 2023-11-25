@@ -1,6 +1,7 @@
 package com.example.keepnotes.ui.note
 
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -25,11 +26,7 @@ class NoteListingAdapter(
         holder.bind(item)
     }
 
-    fun removeItem(position: Int) {
-        list.removeAt(position)
-        notifyItemChanged(position)
-    }
-
+    @SuppressLint("NotifyDataSetChanged")
     fun updateList(list: MutableList<Note>) {
         this.list = list
         notifyDataSetChanged()
