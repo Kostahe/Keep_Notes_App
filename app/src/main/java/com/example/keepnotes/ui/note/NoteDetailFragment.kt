@@ -105,6 +105,8 @@ class NoteDetailFragment : Fragment() {
                         userId = authViewModel.getSession()?.id ?: ""
                     )
                 )
+            } else if(isNoteUnchanged()) {
+                Toast.makeText(context, "Note didn't changed", Toast.LENGTH_SHORT).show()
             } else {
                 viewModel.updateNote(
                     Note(
@@ -128,4 +130,6 @@ class NoteDetailFragment : Fragment() {
         }
         return isValid
     }
+
+    private fun isNoteUnchanged(): Boolean = binding.titleEditText.text.toString() == note?.title && binding.noteEditText.text.toString() == note?.text
 }
