@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -50,6 +51,7 @@ class NoteListingFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
+        setupOnBackPressed()
         binding = FragmentNoteListingBinding.inflate(layoutInflater)
         (requireActivity() as AppCompatActivity).setSupportActionBar(binding.searchBar)
 
@@ -71,8 +73,7 @@ class NoteListingFragment : Fragment() {
                 })
         }
         binding.recyclerViewOfNotes.adapter = adapter
-        binding.recyclerViewOfNotes.layoutManager =
-            StaggeredGridLayoutManager(2, LinearLayoutManager.VERTICAL)
+        binding.recyclerViewOfNotes.layoutManager = StaggeredGridLayoutManager(2, LinearLayoutManager.VERTICAL)
         viewModel.getNotes( authenticationViewModel.getSession() )
         viewModel.note.observe(viewLifecycleOwner) { noteState ->
             when (noteState) {
@@ -81,14 +82,24 @@ class NoteListingFragment : Fragment() {
                 }
 
                 is State.Error -> {
-                    binding.progressBar.visibility = View.GONE
+                    binding.progressBar.visibility = View.INVISIBLE
                 }
 
                 is State.Success -> {
-                    binding.progressBar.visibility = View.GONE
+                    binding.progressBar.visibility = View.INVISIBLE
                     adapter.updateList(noteState.data?.toMutableList() ?: mutableListOf())
                 }
             }
         }
+    }
+    private fun setupOnBackPressed() {
+        requireActivity().onBackPressedDispatcher.addCallback(object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                if (isEnabled) {
+                    authenticationViewModel.logout()
+                    findNavController().navigateUp()
+                }
+            }
+        })
     }
 }
