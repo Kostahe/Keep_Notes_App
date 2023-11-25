@@ -36,6 +36,7 @@ class AuthenticationViewModel @Inject constructor(
         email: String, password: String
     ) {
         _login.value = State.Loading()
+
         repository.login(
             email = email, password = password
 
