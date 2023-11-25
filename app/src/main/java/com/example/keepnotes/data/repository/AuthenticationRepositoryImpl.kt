@@ -24,54 +24,58 @@ class AuthenticationRepositoryImpl @Inject constructor(
     override fun register(
         email: String, password: String, user: User, result: (State<String>) -> Unit
     ) {
-        authentication.createUserWithEmailAndPassword(email, password).addOnCompleteListener { task ->
-            if (task.isSuccessful) {
-                updateUser(user) { state ->
-                    when (state) {
-                        is State.Loading -> {
+        authentication.createUserWithEmailAndPassword(email, password)
+            .addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    user.id = task.result.user?.uid ?: ""
+                    updateUser(user) { state ->
+                        when (state) {
+                            is State.Loading -> {
 
-                        }
+                            }
 
-                        is State.Success -> {
-                            storeSession(id = task.result.user?.uid ?: "")
-                        }
+                            is State.Success -> {
+                                result.invoke(State.Success("User success"))
+                            }
 
-                        is State.Error -> {
-                            result.invoke(State.Error(state.message.toString()))
+                            is State.Error -> {
+                                result.invoke(State.Error(state.message.toString()))
+                            }
                         }
                     }
-                }
-            } else {
-                try {
-                    throw task.exception ?: Exception("Unknown error")
-                } catch (e: FirebaseAuthWeakPasswordException) {
-                    result.invoke(State.Error(AuthenticationsErrorConstants.firebaseAuthWeakPasswordException))
-                } catch (e: FirebaseAuthInvalidCredentialsException) {
-                    result.invoke(State.Error(AuthenticationsErrorConstants.firebaseAuthInvalidCredentialsException))
-                } catch (e: FirebaseAuthUserCollisionException) {
-                    result.invoke(State.Error(AuthenticationsErrorConstants.firebaseAuthUserCollisionException))
-                } catch (e: Exception) {
-                    result.invoke(State.Error(e.message.toString()))
-                }
+                } else {
+                    try {
+                        throw task.exception ?: Exception("Unknown error")
+                    } catch (e: FirebaseAuthWeakPasswordException) {
+                        result.invoke(State.Error(AuthenticationsErrorConstants.firebaseAuthWeakPasswordException))
+                    } catch (e: FirebaseAuthInvalidCredentialsException) {
+                        result.invoke(State.Error(AuthenticationsErrorConstants.firebaseAuthInvalidCredentialsException))
+                    } catch (e: FirebaseAuthUserCollisionException) {
+                        result.invoke(State.Error(AuthenticationsErrorConstants.firebaseAuthUserCollisionException))
+                    } catch (e: Exception) {
+                        result.invoke(State.Error(e.message.toString()))
+                    }
 
-            }
-        }.addOnFailureListener {
-            result.invoke(
-                State.Error(
-                    it.localizedMessage?.toString() ?: "Unknown error"
+                }
+            }.addOnFailureListener {
+                result.invoke(
+                    State.Error(
+                        it.localizedMessage?.toString() ?: "Unknown error"
+                    )
                 )
-            )
-        }
+            }
     }
 
     override fun updateUser(user: User, result: (State<String>) -> Unit) {
-        val document = database.collection(FireStoreTables.USER).document()
-        user.id = document.id
-        document.set(user).addOnSuccessListener {
-            result.invoke(
-                State.Success("User has been created successfully")
-            )
-        }.addOnFailureListener {
+        val document = database.collection(FireStoreTables.USER).document(user.id)
+        document
+            .set(user)
+            .addOnSuccessListener {
+                result.invoke(
+                    State.Success("User has been created successfully")
+                )
+        }
+        .addOnFailureListener {
             result.invoke(State.Error(it.localizedMessage?.toString() ?: "Unknown error"))
         }
     }
@@ -104,16 +108,19 @@ class AuthenticationRepositoryImpl @Inject constructor(
     }
 
     override fun logout() {
-        sharedPreferences.edit().putString(SharedPreferencesConstants.USER_SESSION, null).apply()
+        sharedPreferences.edit().putString(SharedPreferencesConstants.USER_SESSION, null)
+            .apply()
         authentication.signOut()
     }
 
     override fun storeSession(id: String) {
-        database.collection(FireStoreTables.USER).document(id).get().addOnCompleteListener {
-            if (it.isSuccessful) {
-                val user = it.result.toObject(User::class.java)
+        val documentRef = database.collection(FireStoreTables.USER).document(id)
+        documentRef.get().addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                val user = task.result?.toObject(User::class.java)
                 sharedPreferences.edit()
-                    .putString(SharedPreferencesConstants.USER_SESSION, gson.toJson(user)).apply()
+                    .putString(SharedPreferencesConstants.USER_SESSION, gson.toJson(user))
+                    .apply()
             }
         }
     }
