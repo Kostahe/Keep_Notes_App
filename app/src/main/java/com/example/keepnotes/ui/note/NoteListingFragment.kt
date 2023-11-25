@@ -73,7 +73,7 @@ class NoteListingFragment : Fragment() {
         binding.recyclerViewOfNotes.adapter = adapter
         binding.recyclerViewOfNotes.layoutManager =
             StaggeredGridLayoutManager(2, LinearLayoutManager.VERTICAL)
-        viewModel.getNotes()
+        viewModel.getNotes( authenticationViewModel.getSession() )
         viewModel.note.observe(viewLifecycleOwner) { noteState ->
             when (noteState) {
                 is State.Loading -> {
