@@ -27,4 +27,7 @@
     <string name="send">Send</string>
     <string name="log_out_button">Log out button</string>
     <string name="delete_button">Delete button</string>
+    <string name="changes_were_discarded">Changes were discarded</string>
+    <string name="empty_note_was_discarded">Empty note was discarded</string>
+    <string name="note_didn_t_change">Note didn\'t change</string>
 </resources>
