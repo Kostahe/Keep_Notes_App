@@ -31,10 +31,10 @@ class WelcomeFragment : Fragment() {
 
     override fun onStart() {
         super.onStart()
-        Log.d("TEST", authenticationViewModel.getSession().toString())
-        authenticationViewModel.getSession().let {
-            findNavController().navigate(R.id.action_welcomeFragment_to_noteListingFragment)
+        Log.d("TEST IN ONSTART", authenticationViewModel.getSession().toString() )
+        authenticationViewModel.getSession()?.let {
 
+            findNavController().navigate(R.id.action_welcomeFragment_to_noteListingFragment)
         }
     }
 
