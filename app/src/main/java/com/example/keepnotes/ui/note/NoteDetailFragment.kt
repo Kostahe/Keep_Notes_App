@@ -34,12 +34,12 @@ class NoteDetailFragment : Fragment() {
         super.onCreate(savedInstanceState)
         context?.appComponent?.injectToNoteDetailFragment(this)
         viewModel = ViewModelProvider(this, viewModelFactory)[NoteViewModel::class.java]
-        authViewModel = ViewModelProvider(this, viewModelFactory)[AuthenticationViewModel::class.java]
+        authViewModel =
+            ViewModelProvider(this, viewModelFactory)[AuthenticationViewModel::class.java]
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         setupOnBackPressed()
         binding = FragmentNoteDetailBinding.inflate(layoutInflater)
@@ -48,16 +48,27 @@ class NoteDetailFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        getNote()
-        binding.buttonBack.setOnClickListener {
-            addNote()
+        updateNoteFields()
+        binding.backButton.setOnClickListener {
+            saveOrUpdateNote()
             findNavController().navigateUp()
+        }
+
+        binding.deleteButton.setOnClickListener {
+//            viewModel.
         }
     }
 
-    private fun getNote() {
+    private fun updateNoteFields() {
+        getUpdatedNote()?.let {
+            binding.titleEditText.setText(note?.title)
+            binding.noteEditText.setText(note?.text)
+        }
+    }
+
+    private fun getUpdatedNote(): Note? {
         val type = arguments?.getString(NavigationConstants.TYPE)
-        type.let {
+        type?.let {
             if (type == NavigationConstants.UPDATE) {
                 note = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
                     arguments?.getParcelable(NavigationConstants.NOTE, Note::class.java)
@@ -65,33 +76,26 @@ class NoteDetailFragment : Fragment() {
                     @Suppress("DEPRECATION")
                     arguments?.getParcelable(NavigationConstants.NOTE) as? Note
                 }
-
-                binding.titleEditText.setText(note?.title)
-                binding.noteEditText.setText(note?.text)
+                return note
             }
         }
+        return null
     }
 
     private fun setupOnBackPressed() {
         requireActivity().onBackPressedDispatcher.addCallback(object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
                 if (isEnabled) {
-                    addNote()
+                    saveOrUpdateNote()
                     findNavController().navigateUp()
                 }
             }
         })
     }
 
-    private fun addNote() {
+    private fun saveOrUpdateNote() {
         if (validation()) {
-            if (if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                    arguments?.getParcelable(NavigationConstants.NOTE, Note::class.java) == null
-                } else {
-                    @Suppress("DEPRECATION")
-                    arguments?.getParcelable(NavigationConstants.NOTE) as? Note == null
-                }
-            ) {
+            if (getUpdatedNote() == null) {
                 viewModel.addNote(
                     Note(
                         id = "",
@@ -118,9 +122,7 @@ class NoteDetailFragment : Fragment() {
     private fun validation(): Boolean {
         var isValid = true
 
-        if (binding.titleEditText.text.toString().isEmpty() and binding.noteEditText.text.toString()
-                .isEmpty()
-        ) {
+        if (binding.titleEditText.text.toString().isEmpty() and binding.noteEditText.text.toString().isEmpty()) {
             isValid = false
             Toast.makeText(context, "Empty note discarded", Toast.LENGTH_LONG).show()
         }
