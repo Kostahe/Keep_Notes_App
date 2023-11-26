@@ -5,7 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
-import androidx.appcompat.app.AppCompatActivity
+import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -40,6 +40,16 @@ class NoteListingFragment : Fragment() {
         })
     }
 
+    private val filteredAdapter by lazy {
+        NoteListingAdapter(onItemCLicked = { _, item ->
+            findNavController().navigate(R.id.action_noteListingFragment_to_noteDetailFragment,
+                Bundle().apply {
+                    putString(NavigationConstants.TYPE, NavigationConstants.UPDATE)
+                    putParcelable(NavigationConstants.NOTE, item)
+                })
+        })
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         context?.appComponent?.injectToNoteListFragment(this)
@@ -53,19 +63,30 @@ class NoteListingFragment : Fragment() {
     ): View {
         setupOnBackPressed()
         binding = FragmentNoteListingBinding.inflate(layoutInflater)
-        (requireActivity() as AppCompatActivity).setSupportActionBar(binding.searchBar)
+        binding.searchTopBar.setOnMenuItemClickListener { menuItem ->
+            when (menuItem.itemId) {
+                R.id.log_out_button -> {
+                    authenticationViewModel.logout()
+                    findNavController().navigate(R.id.action_noteListingFragment_to_welcomeFragment)
+                    true
+                }
+                else -> {
+                    false
+                }
+            }
+        }
+        binding.searchView.editText.addTextChangedListener {
+            val text = it.toString()
 
+            filteredAdapter.filterList { note ->
+                note.text.contains(text) || note.title.contains(text)
+            }
+        }
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        binding.logOutButton.setOnClickListener {
-            authenticationViewModel.logout()
-            findNavController().navigate(R.id.action_noteListingFragment_to_welcomeFragment)
-        }
-
         binding.floatingActionButton.setOnClickListener {
             findNavController().navigate(R.id.action_noteListingFragment_to_noteDetailFragment,
                 Bundle().apply {
@@ -75,6 +96,8 @@ class NoteListingFragment : Fragment() {
         binding.recyclerViewOfNotes.adapter = adapter
         binding.recyclerViewOfNotes.layoutManager = StaggeredGridLayoutManager(2, LinearLayoutManager.VERTICAL)
         viewModel.getNotes( authenticationViewModel.getSession() )
+        binding.filteredRecyclerViewOfNotes.adapter = filteredAdapter
+        binding.filteredRecyclerViewOfNotes.layoutManager = StaggeredGridLayoutManager(2, LinearLayoutManager.VERTICAL)
         viewModel.note.observe(viewLifecycleOwner) { noteState ->
             when (noteState) {
                 is State.Loading -> {
@@ -88,6 +111,7 @@ class NoteListingFragment : Fragment() {
                 is State.Success -> {
                     binding.progressBar.visibility = View.INVISIBLE
                     adapter.updateList(noteState.data?.toMutableList() ?: mutableListOf())
+                    filteredAdapter.updateList(noteState.data?.toMutableList() ?: mutableListOf())
                 }
             }
         }
