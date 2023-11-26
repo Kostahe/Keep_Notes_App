@@ -13,6 +13,7 @@ class NoteListingAdapter(
 ) : RecyclerView.Adapter<NoteListingAdapter.NoteViewHolder>() {
 
     private var list: MutableList<Note> = mutableListOf()
+    private var notFilteredList: List<Note> = listOf()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NoteViewHolder {
         val itemView = NoteItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -29,6 +30,15 @@ class NoteListingAdapter(
     @SuppressLint("NotifyDataSetChanged")
     fun updateList(list: MutableList<Note>) {
         this.list = list
+        this.notFilteredList = list
+        notifyDataSetChanged()
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    fun filterList(filter: (Note) -> Boolean) {
+        list = notFilteredList.filter { note ->
+            filter.invoke(note)
+        }.toMutableList()
         notifyDataSetChanged()
     }
 
