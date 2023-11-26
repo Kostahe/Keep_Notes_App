@@ -3,7 +3,7 @@
     <string name="create">Create</string>
     <string name="title">Title</string>
     <string name="note">Note</string>
-    <string name="add_note_button">Add note button</string>
+    <string name="add_note">Add note</string>
     <string name="search_your_notes">Search your notes</string>
     <string name="button_back">button_back</string>
     <string name="registration">Registration</string>
@@ -29,5 +29,5 @@
     <string name="delete_button">Delete button</string>
     <string name="changes_were_discarded">Changes were discarded</string>
     <string name="empty_note_was_discarded">Empty note was discarded</string>
-    <string name="note_didn_t_change">Note didn\'t change</string>
+    <string name="note_did_not_change">Note did not change</string>
 </resources>
