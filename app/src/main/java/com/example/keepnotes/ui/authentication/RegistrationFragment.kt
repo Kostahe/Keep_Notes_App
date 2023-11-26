@@ -53,25 +53,6 @@ class RegistrationFragment : Fragment() {
                 passwordEditTextLayout.error = null
             }
 
-            viewModel.register.observe(viewLifecycleOwner) { state ->
-                when (state) {
-                    is State.Loading -> {
-                        progressBar.visibility = View.VISIBLE
-                    }
-
-                    is State.Success -> {
-                        progressBar.visibility = View.INVISIBLE
-                        findNavController().navigate(R.id.action_registrationFragment_to_welcomeFragment2)
-                    }
-
-                    is State.Error -> {
-                        progressBar.visibility = View.INVISIBLE
-                        Toast.makeText(context, state.message, Toast.LENGTH_SHORT).show()
-                    }
-                }
-            }
-
-
             registrationButton.setOnClickListener {
 
                 if (validation()) {
@@ -85,8 +66,8 @@ class RegistrationFragment : Fragment() {
                         )
                     )
                 }
-
             }
+            observer()
         }
     }
 
@@ -101,8 +82,7 @@ class RegistrationFragment : Fragment() {
                 isValid = false
                 usernameEditTextLayout.error = getString(R.string.username_can_not_contain_space)
             } else if (usernameEditText.text.toString().length < 3) {
-                usernameEditTextLayout.error =
-                    getString(R.string.username_can_not_be_less_than_3_characters_long)
+                usernameEditTextLayout.error = getString(R.string.username_can_not_be_less_than_3_characters_long)
             }
 
             if (emailEditText.text.toString().trim().isEmpty()) {
@@ -128,10 +108,29 @@ class RegistrationFragment : Fragment() {
                 passwordEditTextLayout.error = getString(R.string.password_can_not_contain_spaces)
             } else if (passwordEditText.text.toString().length < 8) {
                 isValid = false
-                passwordEditTextLayout.error =
-                    getString(R.string.password_can_not_be_less_than_8_characters_long)
+                passwordEditTextLayout.error = getString(R.string.password_can_not_be_less_than_8_characters_long)
             }
             return isValid
+        }
+    }
+
+    private fun observer() {
+        viewModel.register.observe(viewLifecycleOwner) { state ->
+            when (state) {
+                is State.Loading -> {
+                    binding.progressBar.visibility = View.VISIBLE
+                }
+
+                is State.Success -> {
+                    binding.progressBar.visibility = View.INVISIBLE
+                    findNavController().navigate(R.id.action_registrationFragment_to_welcomeFragment2)
+                }
+
+                is State.Error -> {
+                    binding.progressBar.visibility = View.INVISIBLE
+                    Toast.makeText(context, state.message, Toast.LENGTH_SHORT).show()
+                }
+            }
         }
     }
 

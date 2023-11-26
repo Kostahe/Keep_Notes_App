@@ -59,25 +59,9 @@ class LoginFragment : Fragment() {
                         password = passwordEditText.text.toString()
                     )
                 }
-
-                viewModel.login.observe(viewLifecycleOwner) { state ->
-                    when (state) {
-                        is State.Loading -> {
-                            progressBar.visibility = View.VISIBLE
-                        }
-
-                        is State.Error -> {
-                            progressBar.visibility = View.INVISIBLE
-                        }
-
-                        is State.Success -> {
-                            progressBar.visibility = View.INVISIBLE
-                            findNavController().navigate(R.id.action_loginFragment_to_noteListingFragment)
-                        }
-                    }
-                }
             }
         }
+        observer()
     }
 
     private fun validation(): Boolean {
@@ -104,12 +88,30 @@ class LoginFragment : Fragment() {
                 passwordEditTextLayout.error = getString(R.string.password_can_not_contain_spaces)
                 isValid = false
             } else if (passwordEditText.text.toString().length < 8) {
-                passwordEditTextLayout.error =
-                    getString(R.string.password_can_not_be_less_than_8_characters_long)
+                passwordEditTextLayout.error = getString(R.string.password_can_not_be_less_than_8_characters_long)
                 isValid = false
             }
-
             return isValid
+        }
+    }
+
+    private fun observer() {
+        viewModel.login.observe(viewLifecycleOwner) { state ->
+            when (state) {
+                is State.Loading -> {
+                    binding.progressBar.visibility = View.VISIBLE
+                }
+
+                is State.Error -> {
+                    binding.progressBar.visibility = View.INVISIBLE
+
+                }
+
+                is State.Success -> {
+                    binding.progressBar.visibility = View.INVISIBLE
+                    findNavController().navigate(R.id.action_loginFragment_to_noteListingFragment)
+                }
+            }
         }
     }
 }

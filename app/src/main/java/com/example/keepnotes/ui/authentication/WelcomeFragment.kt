@@ -1,7 +1,6 @@
 package com.example.keepnotes.ui.authentication
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -31,9 +30,7 @@ class WelcomeFragment : Fragment() {
 
     override fun onStart() {
         super.onStart()
-        Log.d("TEST IN ONSTART", authenticationViewModel.getSession().toString() )
         authenticationViewModel.getSession()?.let {
-
             findNavController().navigate(R.id.action_welcomeFragment_to_noteListingFragment)
         }
     }
@@ -56,7 +53,6 @@ class WelcomeFragment : Fragment() {
             loginButton.setOnClickListener {
                 findNavController().navigate(R.id.action_welcomeFragment_to_loginFragment)
             }
-
         }
     }
 

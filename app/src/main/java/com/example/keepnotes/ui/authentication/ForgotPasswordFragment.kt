@@ -54,23 +54,8 @@ class ForgotPasswordFragment : Fragment() {
                     )
                 }
             }
-
-            viewModel.forgotPassword.observe(viewLifecycleOwner) { state ->
-                when (state) {
-                    is State.Loading -> {
-                        progressBar.visibility = View.VISIBLE
-                    }
-                    is State.Error -> {
-                        progressBar.visibility = View.INVISIBLE
-                        Toast.makeText(context, state.message, Toast.LENGTH_SHORT).show()
-                    }
-                    is State.Success -> {
-                        progressBar.visibility = View.INVISIBLE
-                        Toast.makeText(context, state.data, Toast.LENGTH_SHORT).show()
-                    }
-                }
-            }
         }
+        observer()
     }
 
     private fun validation(): Boolean {
@@ -91,7 +76,26 @@ class ForgotPasswordFragment : Fragment() {
                 emailEditTextLayout.error = getString(R.string.the_email_format_is_not_correct)
             }
         }
-
         return isValid
+    }
+
+    private fun observer() {
+        viewModel.forgotPassword.observe(viewLifecycleOwner) { state ->
+            when (state) {
+                is State.Loading -> {
+                    binding.progressBar.visibility = View.VISIBLE
+                }
+
+                is State.Error -> {
+                    binding.progressBar.visibility = View.INVISIBLE
+                    Toast.makeText(context, state.message, Toast.LENGTH_SHORT).show()
+                }
+
+                is State.Success -> {
+                    binding.progressBar.visibility = View.INVISIBLE
+                    Toast.makeText(context, state.data, Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
     }
 }

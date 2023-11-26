@@ -119,16 +119,27 @@ class NoteDetailFragment : Fragment() {
             }
         } else {
             if (!isNoteUnchanged() && updatedNote != null) {
-                Toast.makeText(context, getString(R.string.changes_were_discarded), Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    context,
+                    getString(R.string.changes_were_discarded),
+                    Toast.LENGTH_SHORT
+                ).show()
             } else {
-                Toast.makeText(context, getString(R.string.empty_note_was_discarded), Toast.LENGTH_LONG).show()
+                Toast.makeText(
+                    context,
+                    getString(R.string.empty_note_was_discarded),
+                    Toast.LENGTH_LONG
+                ).show()
             }
         }
     }
 
-    private fun validation(): Boolean = binding.titleEditText.text.toString().isNotEmpty() || binding.noteEditText.text.toString().isNotEmpty()
+    private fun validation(): Boolean =
+        binding.titleEditText.text.toString().isNotEmpty() || binding.noteEditText.text.toString()
+            .isNotEmpty()
 
-    private fun isNoteUnchanged(): Boolean = binding.titleEditText.text.toString() == note?.title && binding.noteEditText.text.toString() == note?.text
+    private fun isNoteUnchanged(): Boolean =
+        binding.titleEditText.text.toString() == note?.title && binding.noteEditText.text.toString() == note?.text
 
     private fun observe() {
         viewModel.addedNote.observe(viewLifecycleOwner) { state ->
@@ -136,12 +147,16 @@ class NoteDetailFragment : Fragment() {
                 is State.Loading -> {
                     binding.progressBar.visibility = View.VISIBLE
                 }
+
                 is State.Success -> {
                     findNavController().navigateUp()
                 }
+
                 is State.Error -> {
                     findNavController().navigateUp()
-                    Toast.makeText(context, "Error happened note didn't create", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context,
+                        getString(R.string.error_happened_note_didn_t_create), Toast.LENGTH_SHORT)
+                        .show()
                 }
             }
         }
@@ -151,12 +166,16 @@ class NoteDetailFragment : Fragment() {
                 is State.Loading -> {
                     binding.progressBar.visibility = View.VISIBLE
                 }
+
                 is State.Success -> {
                     findNavController().navigateUp()
                 }
+
                 is State.Error -> {
                     findNavController().navigateUp()
-                    Toast.makeText(context, "Error happened note didn't update", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context,
+                        getString(R.string.error_happened_note_didn_t_update), Toast.LENGTH_SHORT)
+                        .show()
                 }
             }
         }
@@ -166,12 +185,16 @@ class NoteDetailFragment : Fragment() {
                 is State.Loading -> {
                     binding.progressBar.visibility = View.VISIBLE
                 }
+
                 is State.Success -> {
                     findNavController().navigateUp()
                 }
+
                 is State.Error -> {
                     findNavController().navigateUp()
-                    Toast.makeText(context, "Error happened note didn't delete", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context,
+                        getString(R.string.error_happened_note_didn_t_delete), Toast.LENGTH_SHORT)
+                        .show()
                 }
             }
         }
