@@ -6,7 +6,6 @@ object FireStoreTables {
 }
 
 object FireStoreDocumentField {
-    const val DATE = "date"
     const val USER_ID = "userId"
 }
 
@@ -15,12 +14,6 @@ object NavigationConstants {
     const val UPDATE = "update"
     const val TYPE = "type"
     const val NOTE = "note"
-}
-
-object AuthenticationsErrorConstants {
-    const val firebaseAuthWeakPasswordException = "Authentication failed, Password should be at least 6 characters"
-    const val firebaseAuthInvalidCredentialsException = "Authentication failed, Invalid email entered"
-    const val firebaseAuthUserCollisionException = "Authentication failed, Invalid email entered"
 }
 
 object SharedPreferencesConstants {

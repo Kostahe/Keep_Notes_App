@@ -1,10 +1,11 @@
 package com.example.keepnotes.data.repository
 
+import android.content.Context
 import android.content.SharedPreferences
+import com.example.keepnotes.R
 import com.example.keepnotes.data.model.User
 import com.example.keepnotes.domain.repository.AuthenticationRepository
 import com.example.keepnotes.domain.repository.State
-import com.example.keepnotes.util.AuthenticationsErrorConstants
 import com.example.keepnotes.util.FireStoreTables
 import com.example.keepnotes.util.SharedPreferencesConstants
 import com.google.firebase.auth.FirebaseAuth
@@ -19,7 +20,8 @@ class AuthenticationRepositoryImpl @Inject constructor(
     private val authentication: FirebaseAuth,
     private val database: FirebaseFirestore,
     private val sharedPreferences: SharedPreferences,
-    private val gson: Gson
+    private val gson: Gson,
+    private val context: Context
 ) : AuthenticationRepository {
     override fun register(
         email: String, password: String, user: User, result: (State<String>) -> Unit
@@ -47,11 +49,11 @@ class AuthenticationRepositoryImpl @Inject constructor(
                     try {
                         throw task.exception ?: Exception("Unknown error")
                     } catch (e: FirebaseAuthWeakPasswordException) {
-                        result.invoke(State.Error(AuthenticationsErrorConstants.firebaseAuthWeakPasswordException))
+                        result.invoke(State.Error(context.getString(R.string.authentication_failed_password_should_be_at_least_6_characters)))
                     } catch (e: FirebaseAuthInvalidCredentialsException) {
-                        result.invoke(State.Error(AuthenticationsErrorConstants.firebaseAuthInvalidCredentialsException))
+                        result.invoke(State.Error(context.getString(R.string.authentication_failed_invalid_email_entered)))
                     } catch (e: FirebaseAuthUserCollisionException) {
-                        result.invoke(State.Error(AuthenticationsErrorConstants.firebaseAuthUserCollisionException))
+                        result.invoke(State.Error(context.getString(R.string.user_with_this_email_already_exist)))
                     } catch (e: Exception) {
                         result.invoke(State.Error(e.message.toString()))
                     }
