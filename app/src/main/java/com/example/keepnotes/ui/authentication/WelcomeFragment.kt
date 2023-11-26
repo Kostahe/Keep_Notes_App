@@ -24,8 +24,7 @@ class WelcomeFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         context?.appComponent?.injectToWelcomeFragment(this)
-        authenticationViewModel =
-            ViewModelProvider(this, viewModelFactory)[AuthenticationViewModel::class.java]
+        authenticationViewModel = ViewModelProvider(this, viewModelFactory)[AuthenticationViewModel::class.java]
     }
 
     override fun onStart() {

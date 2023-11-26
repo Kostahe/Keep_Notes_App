@@ -54,8 +54,7 @@ class NoteListingFragment : Fragment() {
         super.onCreate(savedInstanceState)
         context?.appComponent?.injectToNoteListFragment(this)
         viewModel = ViewModelProvider(this, viewModelFactory)[NoteViewModel::class.java]
-        authenticationViewModel =
-            ViewModelProvider(this, viewModelFactory)[AuthenticationViewModel::class.java]
+        authenticationViewModel = ViewModelProvider(this, viewModelFactory)[AuthenticationViewModel::class.java]
     }
 
     override fun onCreateView(
@@ -70,6 +69,7 @@ class NoteListingFragment : Fragment() {
                     findNavController().navigate(R.id.action_noteListingFragment_to_welcomeFragment)
                     true
                 }
+
                 else -> {
                     false
                 }
@@ -87,18 +87,35 @@ class NoteListingFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.floatingActionButton.setOnClickListener {
-            findNavController().navigate(R.id.action_noteListingFragment_to_noteDetailFragment,
-                Bundle().apply {
-                    putString(NavigationConstants.TYPE, NavigationConstants.CREATE)
-                })
+        binding.apply {
+            floatingActionButton.setOnClickListener {
+                findNavController().navigate(R.id.action_noteListingFragment_to_noteDetailFragment,
+                    Bundle().apply {
+                        putString(NavigationConstants.TYPE, NavigationConstants.CREATE)
+                    })
+            }
+            recyclerViewOfNotes.adapter = adapter
+            recyclerViewOfNotes.layoutManager = StaggeredGridLayoutManager(2, LinearLayoutManager.VERTICAL)
+            filteredRecyclerViewOfNotes.adapter = filteredAdapter
+            filteredRecyclerViewOfNotes.layoutManager = StaggeredGridLayoutManager(2, LinearLayoutManager.VERTICAL)
         }
-        binding.recyclerViewOfNotes.adapter = adapter
-        binding.recyclerViewOfNotes.layoutManager = StaggeredGridLayoutManager(2, LinearLayoutManager.VERTICAL)
-        viewModel.getNotes( authenticationViewModel.getSession() )
-        binding.filteredRecyclerViewOfNotes.adapter = filteredAdapter
-        binding.filteredRecyclerViewOfNotes.layoutManager = StaggeredGridLayoutManager(2, LinearLayoutManager.VERTICAL)
-        viewModel.note.observe(viewLifecycleOwner) { noteState ->
+        viewModel.getNotes(authenticationViewModel.getSession())
+        observer()
+    }
+
+    private fun setupOnBackPressed() {
+        requireActivity().onBackPressedDispatcher.addCallback(object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                if (isEnabled) {
+                    authenticationViewModel.logout()
+                    findNavController().navigateUp()
+                }
+            }
+        })
+    }
+
+    private fun observer() {
+        viewModel.notes.observe(viewLifecycleOwner) { noteState ->
             when (noteState) {
                 is State.Loading -> {
                     binding.progressBar.visibility = View.VISIBLE
@@ -115,15 +132,5 @@ class NoteListingFragment : Fragment() {
                 }
             }
         }
-    }
-    private fun setupOnBackPressed() {
-        requireActivity().onBackPressedDispatcher.addCallback(object : OnBackPressedCallback(true) {
-            override fun handleOnBackPressed() {
-                if (isEnabled) {
-                    authenticationViewModel.logout()
-                    findNavController().navigateUp()
-                }
-            }
-        })
     }
 }
