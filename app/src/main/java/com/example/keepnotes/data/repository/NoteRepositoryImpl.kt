@@ -31,7 +31,7 @@ class NoteRepositoryImpl @Inject constructor(
         }
     }
 
-    override fun addNote(note: Note, result: (State<String>) -> Unit) {
+    override fun addNote(note: Note, result: (State<Unit>) -> Unit) {
         val document = database.collection(FireStoreTables.NOTE).document()
 
         note.id = document.id
@@ -39,7 +39,7 @@ class NoteRepositoryImpl @Inject constructor(
             .set(note)
             .addOnSuccessListener {
                 result.invoke(
-                    State.Success("Success")
+                    State.Success(Unit)
                 )
             }
             .addOnFailureListener {
@@ -49,13 +49,13 @@ class NoteRepositoryImpl @Inject constructor(
             }
     }
 
-    override fun updateNote(note: Note, result: (State<String>) -> Unit) {
+    override fun updateNote(note: Note, result: (State<Unit>) -> Unit) {
         val document = database.collection(FireStoreTables.NOTE).document(note.id)
         document
             .set(note)
             .addOnSuccessListener {
                 result.invoke(
-                    State.Success("Success")
+                    State.Success(Unit)
                 )
             }
             .addOnFailureListener {
@@ -65,11 +65,11 @@ class NoteRepositoryImpl @Inject constructor(
             }
     }
 
-    override fun deleteNote(note: Note, result: (State<String>) -> Unit) {
+    override fun deleteNote(note: Note, result: (State<Unit>) -> Unit) {
         database.collection(FireStoreTables.NOTE).document(note.id)
             .delete()
             .addOnSuccessListener {
-                result.invoke(State.Success("Note successfully deleted!"))
+                result.invoke(State.Success(Unit))
             }
             .addOnFailureListener { e ->
                 result.invoke(State.Error(e.message.toString()))

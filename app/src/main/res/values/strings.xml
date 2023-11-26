@@ -36,4 +36,9 @@
     <string name="authentication_failed_password_should_be_at_least_6_characters">Authentication failed, Password should be at least 6 characters</string>
     <string name="authentication_failed_invalid_email_entered">Authentication failed, Invalid email entered</string>
     <string name="user_with_this_email_already_exist">User with this email already exist</string>
+    <string name="unknown_error">Unknown error</string>
+    <string name="email_has_been_sent">Email has been sent</string>
+    <string name="authentication_failed_check_email_and_password">Authentication failed, Check email and password</string>
+    <string name="authentication_failed_check_email">Authentication failed, Check email</string>
+    <string name="authentication_succeed_but_session_didn_t_save_user">Authentication succeed, but session didn\'t save user</string>
 </resources>

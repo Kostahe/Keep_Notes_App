@@ -11,12 +11,12 @@ import javax.inject.Inject
 class AuthenticationViewModel @Inject constructor(
     private val repository: AuthenticationRepository
 ) : ViewModel() {
-    private val _register = MutableLiveData<State<String>>()
-    val register: LiveData<State<String>>
+    private val _register = MutableLiveData<State<Unit>>()
+    val register: LiveData<State<Unit>>
         get() = _register
 
-    private val _login = MutableLiveData<State<String>>()
-    val login: LiveData<State<String>>
+    private val _login = MutableLiveData<State<Unit>>()
+    val login: LiveData<State<Unit>>
         get() = _login
 
     private val _forgotPassword = MutableLiveData<State<String>>()

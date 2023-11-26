@@ -24,7 +24,10 @@ class AuthenticationRepositoryImpl @Inject constructor(
     private val context: Context
 ) : AuthenticationRepository {
     override fun register(
-        email: String, password: String, user: User, result: (State<String>) -> Unit
+        email: String,
+        password: String,
+        user: User,
+        result: (State<Unit>) -> Unit
     ) {
         authentication.createUserWithEmailAndPassword(email, password)
             .addOnCompleteListener { task ->
@@ -37,7 +40,7 @@ class AuthenticationRepositoryImpl @Inject constructor(
                             }
 
                             is State.Success -> {
-                                result.invoke(State.Success("User success"))
+                                result.invoke(State.Success(Unit))
                             }
 
                             is State.Error -> {
@@ -47,7 +50,7 @@ class AuthenticationRepositoryImpl @Inject constructor(
                     }
                 } else {
                     try {
-                        throw task.exception ?: Exception("Unknown error")
+                        throw task.exception ?: Exception( context.getString(R.string.unknown_error))
                     } catch (e: FirebaseAuthWeakPasswordException) {
                         result.invoke(State.Error(context.getString(R.string.authentication_failed_password_should_be_at_least_6_characters)))
                     } catch (e: FirebaseAuthInvalidCredentialsException) {
@@ -60,62 +63,58 @@ class AuthenticationRepositoryImpl @Inject constructor(
 
                 }
             }.addOnFailureListener {
-                result.invoke(
-                    State.Error(
-                        it.localizedMessage?.toString() ?: "Unknown error"
-                    )
-                )
+                result.invoke(State.Error(it.localizedMessage?.toString() ?: context.getString(R.string.unknown_error)))
             }
     }
 
-    override fun updateUser(user: User, result: (State<String>) -> Unit) {
+    override fun updateUser(user: User, result: (State<Unit>) -> Unit) {
         val document = database.collection(FireStoreTables.USER).document(user.id)
-        document
-            .set(user)
-            .addOnSuccessListener {
-                result.invoke(
-                    State.Success("User has been created successfully")
-                )
-        }
-        .addOnFailureListener {
-            result.invoke(State.Error(it.localizedMessage?.toString() ?: "Unknown error"))
+        document.set(user).addOnSuccessListener {
+            result.invoke(State.Success(Unit))
+        }.addOnFailureListener {
+            result.invoke(State.Error(it.localizedMessage?.toString() ?:  context.getString(R.string.unknown_error)))
         }
     }
 
     override fun login(
-        email: String, password: String, result: (State<String>) -> Unit
+        email: String, password: String, result: (State<Unit>) -> Unit
     ) {
         authentication.signInWithEmailAndPassword(email, password).addOnCompleteListener { task ->
             if (task.isSuccessful) {
-                storeSession(task.result.user?.uid ?: "")
-                result.invoke(State.Success("Login successfully!"))
+                storeSession(task.result.user?.uid ?: "") { user ->
+                    if (user == null) {
+                        result.invoke(State.Error(context.getString(R.string.authentication_succeed_but_session_didn_t_save_user)))
+                    } else {
+                        result.invoke(State.Success(Unit))
+                    }
+
+                }
             } else {
-                result.invoke(State.Error("Authentication failed, Check email and password"))
+                result.invoke(State.Error(context.getString(R.string.authentication_failed_check_email_and_password)))
             }
         }.addOnFailureListener {
-            result.invoke(State.Error("Authentication failed, Check email and password"))
+            result.invoke(State.Error(context.getString(R.string.authentication_failed_check_email_and_password)))
         }
     }
 
     override fun forgotPassword(email: String, result: (State<String>) -> Unit) {
         authentication.sendPasswordResetEmail(email).addOnCompleteListener { task ->
             if (task.isSuccessful) {
-                result.invoke(State.Success("Email has been sent"))
+                result.invoke(State.Success(context.getString(R.string.email_has_been_sent)))
             } else {
                 result.invoke(State.Error(task.exception?.message.toString()))
             }
         }.addOnFailureListener {
-            result.invoke(State.Error("Authentication failed, Check email"))
+            result.invoke(State.Error(context.getString(R.string.authentication_failed_check_email)))
         }
     }
 
     override fun logout() {
-        sharedPreferences.edit().putString(SharedPreferencesConstants.USER_SESSION, null)
-            .apply()
+        sharedPreferences.edit().putString(SharedPreferencesConstants.USER_SESSION, null).apply()
         authentication.signOut()
     }
 
-    override fun storeSession(id: String) {
+    override fun storeSession(id: String, result: (User?) -> Unit) {
         val documentRef = database.collection(FireStoreTables.USER).document(id)
         documentRef.get().addOnCompleteListener { task ->
             if (task.isSuccessful) {
@@ -123,6 +122,7 @@ class AuthenticationRepositoryImpl @Inject constructor(
                 sharedPreferences.edit()
                     .putString(SharedPreferencesConstants.USER_SESSION, gson.toJson(user))
                     .apply()
+                result.invoke(user)
             }
         }
     }

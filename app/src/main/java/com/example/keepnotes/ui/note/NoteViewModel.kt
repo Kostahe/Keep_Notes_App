@@ -14,19 +14,19 @@ class NoteViewModel @Inject constructor(
 ) : ViewModel() {
 
     private val _notes = MutableLiveData<State<List<Note>>>()
-    val note: LiveData<State<List<Note>>>
+    val notes: LiveData<State<List<Note>>>
         get() = _notes
 
-    private val _addedNote = MutableLiveData<State<String>>()
-    val addedNote: LiveData<State<String>>
+    private val _addedNote = MutableLiveData<State<Unit>>()
+    val addedNote: LiveData<State<Unit>>
         get() = _addedNote
 
-    private val _updatedNote = MutableLiveData<State<String>>()
-    val updatedNote: LiveData<State<String>>
+    private val _updatedNote = MutableLiveData<State<Unit>>()
+    val updatedNote: LiveData<State<Unit>>
         get() = _updatedNote
 
-    private val _deletedNote = MutableLiveData<State<String>>()
-    val deletedNote: LiveData<State<String>>
+    private val _deletedNote = MutableLiveData<State<Unit>>()
+    val deletedNote: LiveData<State<Unit>>
         get() = _deletedNote
 
     fun getNotes(user: User?) {
