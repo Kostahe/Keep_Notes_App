@@ -68,7 +68,6 @@
         android:imeOptions="actionSend"
         android:importantForAutofill="no"
         android:inputType="textMultiLine"
-        android:maxLength="50"
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="@id/title_edit_text"
         app:layout_constraintStart_toStartOf="@id/title_edit_text"
