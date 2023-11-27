@@ -107,8 +107,7 @@ class NoteListingFragment : Fragment() {
         requireActivity().onBackPressedDispatcher.addCallback(object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
                 if (isEnabled) {
-                    authenticationViewModel.logout()
-                    findNavController().navigateUp()
+                    requireActivity().finish()
                 }
             }
         })
