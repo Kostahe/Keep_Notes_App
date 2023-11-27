@@ -68,18 +68,18 @@
     <com.google.android.material.search.SearchView
         android:id="@+id/search_view"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:hint="@string/search_your_notes"
         android:inputType="text"
         android:maxLines="1"
         app:layout_anchor="@id/searchTopBar"
-        app:tint="?attr/colorBackgroundFloating">
+        app:backgroundTint="?attr/colorBackgroundFloating">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/filtered_recycler_view_of_notes"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:backgroundTint="?android:attr/colorBackground"
+            android:background="?attr/colorSurface"
             android:orientation="vertical"
             app:layoutManager="androidx.recyclerview.widget.GridLayoutManager" />
 
