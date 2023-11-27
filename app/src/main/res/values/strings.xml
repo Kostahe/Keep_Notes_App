@@ -41,4 +41,5 @@
     <string name="authentication_failed_check_email_and_password">Authentication failed, Check email and password</string>
     <string name="authentication_failed_check_email">Authentication failed, Check email</string>
     <string name="authentication_succeed_but_session_didn_t_save_user">Authentication succeed, but session didn\'t save user</string>
+    <string name="keep_notes">Keep Notes</string>
 </resources>
