@@ -1,5 +1,5 @@
 ![Keep_Notes (1)](https://github.com/Kostahe/Keep_Notes_App/assets/113007546/1bd831f7-59c8-4e41-b92c-868ae3805ff5)
-<p>SImple keep notes app which uses firestore and firebase authentication.</p>
+<p>Simple keep notes app which uses firestore and firebase authentication.</p>
 
 ## What I used for this app
 * <p><a href="https://developer.android.com/develop/ui/views/layout/declaring-layout">Views</a> for ui </p>
